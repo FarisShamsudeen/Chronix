@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const saltround = 10
 const passport = require('passport');
 require('dotenv').config();
-require('../Config/passport');
+// require('../Config/passport');
 const nodemailer = require('nodemailer');
 const otpGenerator = require('otp-generator');
 

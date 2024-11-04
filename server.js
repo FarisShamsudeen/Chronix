@@ -3,7 +3,7 @@ const app = express()
 const path = require('path')
 const PORT = process.env.PORT || 7000
 const passport = require('passport');
-require('./Config/passport');
+// require('./Config/passport');
 const session = require('express-session')
 const nocache = require('nocache')
 const methodOverride = require('method-override')
