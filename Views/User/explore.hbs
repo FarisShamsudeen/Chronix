@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Style/user/explore.css">
+
+    <title>Explore</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-dark d-flex justify-content-between">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img id="logo-img" src="/Images/Logo/secondary_logo_without_bg.webp" alt="CHRONIX Secondary Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-flex" id="navbarScroll">
+                <form  class="d-flex ms-auto me-5 " role="search" >
+                    <input id="searchbar" class="form-control me-2" type="search" placeholder="Search Products" aria-label="Search" >
+                    <button class="btn btn-outline-warning wishlist" type="submit"><i class="bi bi-search"></i></button>
+                </form>
+                    <p class="d-flex navbar_username mt-3 me-5"><a href="/user/login" class="text-decoration-none text-center">LOG IN</a></p>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="d-flex ">
+        <div id="sidebar" class="sidebar">
+            <ul class="list-unstyled">
+                <li id="home" class="sidebar-item"><a href="/user/home" class="text-decoration-none"><i
+                            class="bi bi-house-door"></i>
+                        <span class="item-text"> Home</span></a></li>
+                <li id="explore" class="sidebar-item"><a href="/user/explore" class="text-decoration-none"><i
+                            class="bi bi-compass"></i>
+                        <span class="item-text"> Explore</span></a></li>
+                <li id="wishlist" class="sidebar-item"><a href="/user/wishlist" class="text-decoration-none"><i
+                            class="bi bi-heart"></i>
+                        <span class="item-text"> Wishlist</span></a></li>
+                <li id="cart" class="sidebar-item"><a href="/user/cart" class="text-decoration-none"><i
+                            class="bi bi-cart2"></i>
+                        <span class="item-text"> Cart</span></a></li>
+                <li id="profile" class="sidebar-item"><a href="/user/profile" class="text-decoration-none"><i
+                            class="bi bi-person"></i>
+                        <span class="item-text"> Profile</span></a></li>
+                <li id="orders" class="sidebar-item"><a href="/user/orders" class="text-decoration-none"><i
+                            class="bi bi-clock-history"></i>
+                        <span class="item-text"> Orders</span></a></li>
+                <li id="reviews" class="sidebar-item"><a href="/user/reviews" class="text-decoration-none"><i
+                            class="bi bi-chat-left-text"></i>
+                        <span class="item-text"> Reviews</span></a></li>
+                <li id="wallet" class="sidebar-item"><a href="/user/wallet" class="text-decoration-none"><i
+                            class="bi bi-wallet"></i>
+                        <span class="item-text"> Wallet</span></a></li>
+                <li id="logout" class="sidebar-item"><a href="/user/logout" class="text-decoration-none"><i
+                            class="bi bi-box-arrow-right"></i>
+                        <span class="item-text"> Logout</span></a></li>
+            </ul>
+        </div>
+
+
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="products" class="col-md-9"
+                        style="overflow-y: scroll; max-height: 500px; scrollbar-width: 20px;">
+                        <style>
+
+                        </style>
+                        <!-- Product Cards -->
+                        <div class="product-card ">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="/Images/Watches/SLGA025G_1500x1500.png" alt="Watch" class="product-image">
+                                </div>
+                                <div class="col-md-9">
+                                    <h5>SRQD215 - Spring Drive 4-Day Masterpiece Jewelry Watch</h5>
+                                    <p id="product-description">A high-precision timepiece that combines innovative
+                                        technology
+                                        with exceptional craftsmanship</p>
+                                    <p class="h5 text-secondary mb-3">Price ₹ 15,500,000.00</p>
+                                    <div class="product-actions">
+                                        <button class="btn btn-black btn-sm wishlist"><i class="bi bi-heart-fill"></i></button>
+                                        <button class="btn btn-outline-light btn-sm"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                                        <button class="btn btn-secondary btn-sm"><a href="/user/product" class="text-decoration-none">Product Details</a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="/Images/Watches/SLGA025G_1500x1500.png" alt="Watch" class="product-image">
+                                </div>
+                                <div class="col-md-9">
+                                    <h5>SRQD215 - Spring Drive 4-Day Masterpiece Jewelry Watch</h5>
+                                    <p id="product-description">A high-precision timepiece that combines innovative
+                                        technology
+                                        with exceptional craftsmanship</p>
+                                    <p class="h5 text-secondary mb-3">Price ₹ 15,500,000.00</p>
+                                    <div class="product-actions">
+                                        <button class="btn btn-black btn-sm wishlist"><i class="bi bi-heart-fill"></i></button>
+                                        <button class="btn btn-outline-light btn-sm"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                                        <button class="btn btn-secondary btn-sm"><a href="/user/product" class="text-decoration-none">Product Details</a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="/Images/Watches/SLGA025G_1500x1500.png" alt="Watch" class="product-image">
+                                </div>
+                                <div class="col-md-9">
+                                    <h5>SRQD215 - Spring Drive 4-Day Masterpiece Jewelry Watch</h5>
+                                    <p id="product-description">A high-precision timepiece that combines innovative
+                                        technology
+                                        with exceptional craftsmanship</p>
+                                    <p class="h5 text-secondary mb-3">Price ₹ 15,500,000.00</p>
+                                    <div class="product-actions">
+                                        <button class="btn btn-black btn-sm wishlist"><i class="bi bi-heart-fill"></i></button>
+                                        <button class="btn btn-outline-light btn-sm"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                                        <button class="btn btn-secondary btn-sm"><a href="/user/product" class="text-decoration-none">Product Details</a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- Repeat product cards as needed -->
+                    </div>
+
+                    <div id="filters" class="col-md-3" style="overflow-y: scroll; max-height: 500px; scrollbar-width: 20px;">
+                        <!-- Filters -->
+                        <div class="filters" >
+                            <h5>Collections</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="coll1">
+                                <label class="form-check-label" for="coll1">Heritage Collection</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="coll2">
+                                <label class="form-check-label" for="coll2">Elegance Collection</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="coll3">
+                                <label class="form-check-label" for="coll3">Masterpiece Collection</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="coll4">
+                                <label class="form-check-label" for="coll4">Sports Collection</label>
+                            </div>
+
+                            <h5 class="mt-4">Price</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="price1">
+                                <label class="form-check-label" for="price1">Rs.160000 - Rs.400000</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="price2">
+                                <label class="form-check-label" for="price2">Rs.400001 - Rs.800000</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="price2">
+                                <label class="form-check-label" for="price2">Rs.800001 and above</label>
+                            </div>
+
+                            <h5 class="mt-4">Movement</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="movement1">
+                                <label class="form-check-label" for="movement1">Automatic</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="movement2">
+                                <label class="form-check-label" for="movement2">Spring Drive</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="movement3">
+                                <label class="form-check-label" for="movement3">Quartz</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="movement4">
+                                <label class="form-check-label" for="movement4">Mechanical</label>
+                            </div>
+
+                            <h5 class="mt-4">Case Material</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="material1">
+                                <label class="form-check-label" for="material1">Stainless Steel</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="material2">
+                                <label class="form-check-label" for="material2">High Intensity Titanium</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="material3">
+                                <label class="form-check-label" for="material3">Titanium</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="material4">
+                                <label class="form-check-label" for="material4">Platinum</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+
+        const toggleButton = document.getElementById('logo-img');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleButton.addEventListener('click', function () {
+            sidebar.classList.toggle('minimized');
+        });
+
+        // Minimize sidebar by default for small screens on page load
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('minimized');
+        }
+
+        // Adjust when window is resized (optional, but good for UX)
+        window.addEventListener('resize', function () {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('minimized');
+            } else {
+                sidebar.classList.remove('minimized');
+            }
+        });
+
+    </script>
+</body>
+
+</html>

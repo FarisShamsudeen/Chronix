@@ -1,0 +1,363 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Lustria&display=swap');
+
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-image: url('/Images/Background/white_bg.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #000000;
+  background-size: 100% 100%;
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+#profile {
+  background-color: #00c3c3;
+}
+
+#content {
+  width: 100%;
+  background-color: #00939300;
+}
+
+#center {
+  width: 100%;
+  background-color: #0a0093;
+  height: inherit;
+}
+
+.right {
+  background-color: #ff000000;
+  padding: 20px;
+  color: rgb(0, 0, 0);
+  height: 80vh;
+}
+
+.login-section {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.featured-banner {
+  background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.253), rgb(66, 66, 66)),
+              url('/Images/Watches/SBGD215_Spring_Drive_8_Day_Masterpiece_Jewelry_Watch.webp') no-repeat bottom right/70% auto;
+  filter: grayscale(100%);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  height: 30vh;
+}
+
+.featured-banner h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-family: 'lustria', sans-serif;
+}
+
+.buy-now-link {
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.buy-now-link:hover {
+  color: #000000;
+}
+
+.new-collections {
+  margin-top: 20px;
+  height: 10%;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.view-all {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.view-all:hover {
+  color: #000000;
+}
+
+.collection-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.collection-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.collection-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.watch-thumbnail {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.watch-details {
+  flex: 1;
+}
+
+.watch-name {
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.watch-price {
+  color: #009393;
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .right {
+      display: none;
+      /* Hide on mobile as per your existing style */
+  }
+}
+
+.product-card {
+
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.500);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.500);
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.500);
+  border-radius: 25px;
+  padding: 020px;
+  max-width: 100%;
+  margin: 10px 5px 10px 5px;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+.product-price {
+  color: #009393;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.product-rating {
+  color: #ffd700;
+}
+
+.btn-black {
+  border: 1px solid #ffffff;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.wishlist {
+  border-radius: 25px;
+
+}
+
+.bi-heart-fill,
+.bi-cart-plus {
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .right {
+      display: none;
+
+  }
+
+  .product-card {
+      max-width: 90%;
+      /* slightly smaller width on mobile */
+  }
+
+  /* Hide other cards in the same slide on mobile */
+  .carousel-item .row>div:not(:first-child) {
+      display: none;
+  }
+
+  /* Adjust spacing */
+  .carousel-item .row>div:first-child {
+      padding: 0 15px;
+  }
+
+  /* Make arrows more visible on mobile */
+  .carousel-control-prev,
+  .carousel-control-next {
+      width: 10%;
+      background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (min-width: 769px) {
+  .carousel-item .row {
+      display: flex;
+      flex-wrap: wrap;
+  }
+}
+
+
+nav {
+  /* padding: 50px; */
+  margin: 10px;
+  /* background-color: rgba(211, 66, 66, 0.925); */
+  display: flex;
+
+}
+
+.navbar-brand {
+  height: 9vh;
+  width: 30vh;
+  /* background-color: rgba(181, 181, 223, 0.925); */
+}
+
+#logo-img {
+  height: 7vh;
+  width: 100%;
+  object-fit: cover;
+  background-color: rgba(0, 0, 255, 0);
+}
+
+.navbar_username {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  /* margin-right: 10px; */
+}
+
+
+
+
+.list-unstyled {
+  font-size: 1.2rem;
+}
+
+.sidebar-item {
+
+  width: 230px;
+  padding: 2.2vh 20px 2.2vh 45px;
+  /* top right bottom left */
+  /* margin: 0px 0px 0px 30px; */
+  /* top right bottom left */
+  border-radius: 0 50px 50px 0%;
+  /* top right bottom left */
+}
+
+.sidebar-item:hover {
+  transition: 0.3s ease-in-out;
+  backdrop-filter: blur(20px);
+  -webkit-box-shadow: 0px 0px 20px 1px #00c3c3;
+  -moz-box-shadow: 0px 0px 20px 1px #00c3c3;
+  box-shadow: 0px 0px 20px 1px #00c3c3;
+}
+
+/* ____________________________________________________________ */
+
+
+/* Default (Full sidebar) */
+.sidebar {
+  z-index: 100;
+  width: 230px;
+  transition: width 0.3s ease-in-out;
+}
+
+.sidebar-item .item-text {
+  margin-left: 10px;
+  display: inline;
+  /* Show the text in full sidebar */
+}
+
+#toggleSidebar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  
+  /* Minimized sidebar by default on small screens */
+  .sidebar {
+    z-index: 100;
+    width: 230px;
+    
+  }
+  
+  .sidebar.minimized {
+    width: 60px;
+    /* Expand to full sidebar on toggle */
+  }
+  
+  .sidebar.minimized .item-text {
+    display: none;
+    /* Hide the text in minimized mode */
+  }
+  
+  
+  /* Sidebar items center-align the icons in minimized mode */
+  .sidebar.minimized .sidebar-item {
+    width: 60px;
+    text-align: center;
+    padding: 2vh 10px;
+    /* Adjust padding to center the icons */
+  }
+  
+  .sidebar.minimized .sidebar-item i {
+    font-size: 1.2rem;
+    /* Slightly bigger icon */
+  }
+  
+  
+}
+
+
+/* ____________________________________________________________ */
+
+.text-decoration-none {
+  color: #000000;
+}
+
+
