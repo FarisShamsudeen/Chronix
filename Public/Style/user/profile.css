@@ -1,0 +1,463 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Lustria&display=swap');
+
+
+
+html,
+body {
+  min-height: 100vh;
+  max-height: 100vh;
+  /* overflow: hidden; */
+}
+
+body {
+  position: fixed;
+  width: 100%;
+}
+
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-image: url('/Images/Background/black_bg.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #fff;
+  background-size: 100% 100%;
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+  /* overflow-y: hidden; */
+}
+
+#profile {
+  background-color: #009393;
+}
+
+
+.view-all {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.view-all:hover {
+  color: #009393;
+}
+
+.collection-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.collection-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+}
+
+.collection-item:hover {
+  border: #009393 1px solid;
+  background-color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: 0.3s;
+
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .right {
+    display: none;
+    /* Hide on mobile as per your existing style */
+  }
+}
+
+.card {
+  color: white;
+  border-radius: 25px;
+  background-color: #00000000;
+  margin: 5px;
+  backdrop-filter: blur(20px);
+  -webkit-box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+  -moz-box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+  box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+}
+
+.alert {
+  border-radius: 25px;
+  background-color: #00000000;
+  color: white;
+  margin: 5px;
+  backdrop-filter: blur(20px);
+  -webkit-box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+  -moz-box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+  box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+}
+
+#profileSection::-webkit-scrollbar,
+select option::-webkit-scrollbar,
+#Addresses-Section::-webkit-scrollbar {
+  width: 20px;
+}
+
+select option::-webkit-scrollbar,
+#profileSection::-webkit-scrollbar-track,
+#Addresses-Section::-webkit-scrollbar-track {
+  background: black;
+  border-radius: 20px;
+}
+
+#Addresses-Section::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+select option::-webkit-scrollbar,
+#profileSection::-webkit-scrollbar-thumb,
+#Addresses-Section::-webkit-scrollbar-thumb {
+  width: 15px;
+  background-color: rgb(15, 15, 15);
+  border-radius: 20px;
+  border: 3px solid black;
+}
+
+nav {
+  /* padding: 50px; */
+  margin: 10px;
+  /* background-color: rgba(211, 66, 66, 0.925); */
+  display: flex;
+
+}
+
+.navbar-brand {
+  height: 9vh;
+  width: 30vh;
+  /* background-color: rgba(181, 181, 223, 0.925); */
+}
+
+#logo-img {
+  height: 7vh;
+  width: 100%;
+  object-fit: cover;
+  background-color: rgba(0, 0, 255, 0);
+}
+
+.navbar_username {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  /* margin-right: 10px; */
+}
+
+
+
+
+.list-unstyled {
+  font-size: 1.2rem;
+}
+
+.sidebar-item {
+
+  width: 230px;
+  padding: 2.2vh 20px 2.2vh 45px;
+  /* top right bottom left */
+  /* margin: 0px 0px 0px 30px; */
+  /* top right bottom left */
+  border-radius: 0 50px 50px 0%;
+  /* top right bottom left */
+}
+
+.sidebar-item:hover {
+  transition: 0.3s ease-in-out;
+  backdrop-filter: blur(20px);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(34, 34, 34, 0.363));
+}
+
+/* ____________________________________________________________ */
+
+
+/* Default (Full sidebar) */
+.sidebar {
+  z-index: 100;
+  width: 230px;
+  transition: width 0.3s ease-in-out;
+}
+
+.sidebar-item .item-text {
+  margin-left: 10px;
+  display: inline;
+  /* Show the text in full sidebar */
+}
+
+#toggleSidebar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  /* Minimized sidebar by default on small screens */
+  .sidebar {
+    z-index: 100;
+    width: 230px;
+
+  }
+
+  .sidebar.minimized {
+    width: 60px;
+    /* Expand to full sidebar on toggle */
+  }
+
+  .sidebar.minimized .item-text {
+    display: none;
+    /* Hide the text in minimized mode */
+  }
+
+
+  /* Sidebar items center-align the icons in minimized mode */
+  .sidebar.minimized .sidebar-item {
+    width: 60px;
+    text-align: center;
+    padding: 2vh 10px;
+    /* Adjust padding to center the icons */
+  }
+
+  .sidebar.minimized .sidebar-item i {
+    font-size: 1.2rem;
+    /* Slightly bigger icon */
+  }
+
+
+}
+
+
+/* ____________________________________________________________ */
+
+.text-decoration-none {
+  color: #fff;
+}
+
+
+
+#profileSection {
+  overflow-y: scroll;
+  max-height: 80vh;
+}
+
+.default-address-container {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+.default-address-container p {
+  margin-bottom: 0;
+}
+
+.default-address-container .btn {
+  margin-right: 0.5rem;
+}
+
+
+.main-content {
+  background-color: #24242400;
+  border-radius: 8px;
+  padding: 0px 10px 0px 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+
+/* Input field styling */
+.form-control {
+  border-radius: 15px;
+  border: 1px solid #ced4da;
+  background-color: #00000000;
+  color: #ffffff;
+  transition: .5s ease-in-out;
+}
+
+.form-control::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(160, 160, 160);
+  opacity: 1;
+  /* Firefox */
+}
+
+.form-control:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgb(160, 160, 160);
+}
+
+.form-control::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgb(160, 160, 160);
+}
+
+.form-control:focus {
+  color: #fff;
+  border-color: #f6ff00;
+  background-color: #00000000;
+  box-shadow: 0 0 0 0.2rem rgba(124, 124, 124, 0);
+}
+
+.submit {
+  border-radius: 20px;
+
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+#addresses {
+  border-radius: 20px;
+  width: inherit;
+
+}
+
+.submit {
+  width: 100%;
+}
+
+#setAsDefault {
+  width: 90%;
+}
+
+.form-check {
+  display: flex;
+  width: 100%;
+  min-height: 1.5rem;
+  font-size: small;
+}
+
+.btn {
+  border-radius: 20px;
+}
+
+.addresses-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* General Modal Styling */
+.modal-dialog {
+  max-width: 600px;
+  /* Adjust the width of the modal */
+  /* margin: 50vh auto ;  */
+}
+
+.modal-content {
+  border-radius: 20px;
+  background-color: #000000;
+  /* Rounded corners for the modal */
+  -webkit-box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+  -moz-box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+  box-shadow: 0px 0px 10px 1px rgb(0, 195, 192);
+}
+
+.modal-header {
+  background-color: #000000;
+  /* Light background for header */
+  border-bottom: .5px dashed #ddd;
+  /* Light border under header */
+  border-radius: 20px 20px 0 0;
+  /* Rounded corners for the modal */
+}
+
+.modal-header .modal-title {
+  font-size: 1.25rem;
+  /* Font size for the modal title */
+  font-weight: bold;
+  /* Make the title bold */
+  color: #00c3ff;
+  /* Dark color for the title */
+}
+
+.modal-footer {
+  border-top: .5px dashed #ddd;
+  /* Light border at the bottom */
+  border-radius: 0 0 20px 20px;
+  background-color: #000000;  
+}
+
+
+.btn-close {
+  font-size: 1.5rem;
+  /* Adjust close button size */
+  color: #ff0000;
+  /* Light color for close button */
+}
+
+.modal-body {
+  border-radius: 0 0 20px 20px;
+  /* Rounded corners for the modal */
+  padding: 20px;
+  /* Padding around form fields */
+  background-color: #000000;
+  /* White background for the form */
+}
+
+
+select {
+  width: 100%;
+  /* Full width for dropdown */
+  padding: 12px 20px;
+  /* Add padding */
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('arrow-down.png');
+  /* Add custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+select option {
+  padding: 10px;
+  color: #ffffff;
+  background-color: #000000;
+  border-radius: 20px;
+}
+
+select option:disabled {
+  color: #aaa;
+  background-color: #f2f2f2;
+}
+
+.bi-eye-slash {
+  margin-top: -30px;
+  cursor: pointer;
+}
+
+.bi-eye {
+  margin-top: -30px;
+  cursor: pointer;
+}

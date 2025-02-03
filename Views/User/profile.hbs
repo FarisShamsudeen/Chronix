@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Style/user/profile.css">
+
+    <title>Profile</title>
+    <link rel="icon" type="image/png" href="/Images/Logo/favicon_without_bg.png">
+</head>
+
+<body>
+
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="text" name="message" id="message" value="{{message}}" hidden>
+    <!-- Modal HTML -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{{message}}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal for Editing Address -->
+    <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editAddressModalLabel">Edit Address</h5>
+                </div>
+                <div class="modal-body">
+                    <!-- Edit Address Form -->
+                    <form id="editAddressForm" action="/profile/{{user._id}}/editAddress" method="POST" novalidate>
+                        <div class="form-group">
+                            <label for="editFlatNo">Flat, House no., Building, Company, Apartment</label>
+                            <input type="text" class="form-control" id="editFlatNo" name="flatNo" required>
+                            <div class="invalid-feedback d-block" id="flatNoError"></div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="editArea">Area, Landmark, Street, Sector, Village</label>
+                            <input type="text" class="form-control" id="editArea" name="area" required>
+                            <div class="invalid-feedback d-block" id="areaError"></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="form-group col-md-4">
+                                <label for="editPincode">Pincode</label>
+                                <input type="number" class="form-control" id="editPincode" name="pincode" required>
+                                <div class="invalid-feedback d-block" id="pincodeError"></div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="state">State</label>
+                                <select class="form-control" id="editState" name="state" onclick="validateState(this)">
+                                    <option value="">Select</option>
+                                    {{#each states}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="invalid-feedback d-block" id="stateError"></div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="townCity">District</label>
+                                <select class="form-control" id="editTownCity" name="townCity"
+                                    onchange="validateTownCity(this)">
+                                    <option value="">Select state again</option>
+                                    {{#each districts}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="invalid-feedback d-block" id="townCityError"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="editPhoneNumber">Phone Number</label>
+                            <input type="number" class="form-control" id="editPhoneNumber" name="phoneNumber" required>
+                            <div class="invalid-feedback d-block" id="phoneNumberError"></div>
+                        </div>
+                        <input type="hidden" id="editAddressId" name="addressId">
+                        <div class="gap-2 col-12 row">
+                            <button type="submit" class="btn btn-info col-5 mt-3 ms-5">Save Changes</button>
+                            <button type="button" class="btn btn-secondary mt-3 col-5" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Address Modal -->
+    <div class="modal fade" id="deleteAddressModal" tabindex="-1" aria-labelledby="deleteAddressModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAddressModalLabel">Delete Address</h5>
+                </div>
+                <div class="modal-body">
+                    <!-- Confirmation Message -->
+                    <p>Are you sure you want to delete this address? This action cannot be undone.</p>
+                    <!-- Delete Address Form -->
+                    <form id="deleteAddressForm" method="POST">
+                        <input type="text" id="deleteAddressId" name="addressId" hidden>
+                        <!-- Hidden field for address ID -->
+                        <div class="gap-2 col-12 row">
+                            <button type="submit" class="btn btn-danger col-5 mt-3 ms-5">Delete</button>
+                            <button type="button" class="btn btn-secondary mt-3 col-5" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <nav class="navbar navbar-expand-lg bg-body-dark d-flex justify-content-between">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img id="logo-img" src="/Images/Logo/secondary_logo_without_bg.webp" alt="CHRONIX Secondary Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  justify-content-end " id="navbarScroll">
+                {{#if user.username}}
+                <p class="d-flex justify-content-end navbar_username mt-3 me-5"><a href="/profile"
+                        class="text-decoration-none text-center">{{{user.username}}}</a></p>
+                {{else}}
+                <p class="d-flex navbar_username mt-3 me-5"><a href="/login"
+                        class="text-decoration-none text-center"><i class="bi bi-box-arrow-right"></i> LOG IN {{user}}
+                    </a>
+                </p>
+                {{/if}}
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="d-flex">
+        <div id="sidebar" class="sidebar me-3">
+            <ul class="list-unstyled">
+                <li id="home" class="sidebar-item"><a href="/"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-house-door"></i><span
+                            class="item-text ms-2"> Home</span></a></li>
+                <li id="explore" class="sidebar-item"><a href="/explore"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-compass"></i><span
+                            class="item-text ms-2"> Explore</span></a></li>
+                <li id="wishlist" class="sidebar-item"><a href="/wishlist"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-heart"></i><span
+                            class="item-text ms-2"> Wishlist</span></a></li>
+                <li id="cart" class="sidebar-item"><a href="/cart"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-cart2"></i><span
+                            class="item-text ms-2"> Cart</span></a></li>
+                <li id="profile" class="sidebar-item"><a href="/profile"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-person"></i><span
+                            class="item-text ms-2"> Profile</span></a></li>
+                <li id="orders" class="sidebar-item"><a href="/orders"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-clock-history"></i><span
+                            class="item-text ms-2"> Orders</span></a></li>
+                 
+                <li id="wallet" class="sidebar-item"><a href="/wallet"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-wallet"></i><span
+                            class="item-text ms-2"> Wallet</span></a></li>
+                <li id="logout" class="sidebar-item">
+                    <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="item-text ms-2">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+
+
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Products Section -->
+                    <div id="profileSection" class="col-md-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>PROFILE</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="/profile/{{user._id}}/updateName" method="post" id="profileForm">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label for="username">Full Name</label>
+                                            <input type="text" class="form-control" id="username" name="username"
+                                                value="{{user.username}}" placeholder="Enter full name">
+                                            <div class="invalid-feedback" id="usernameError"></div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-info mt-3 submit">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h3>ADD NEW ADDRESS</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="/profile/{{user._id}}/addNewAddress" method="POST"
+                                    class="addresses-form">
+                                    <div class="form-group col-12">
+                                        <label for="flatNo">Flat, House no., Building, Company, Apartment</label>
+                                        <input type="text" class="form-control" id="flatNo" name="flatNo"
+                                            placeholder="e.g. 101, XYZ Apartments">
+                                        <div class="invalid-feedback d-block" id="flatNoError"></div>
+                                    </div>
+                                    <div class="form-group mt-3 col-12">
+                                        <label for="area">Area, Landmark, Street, Sector, Village</label>
+                                        <input type="text" class="form-control" id="area" name="area"
+                                            placeholder="e.g. Sector 11, Rohini">
+                                        <div class="invalid-feedback d-block" id="areaError"></div>
+                                    </div>
+                                    <div class="row mt-3 col-12">
+                                        <div class="form-group col-md-4">
+                                            <label for="pincode">Pincode</label>
+                                            <input type="number" class="form-control" id="pincode" name="pincode"
+                                                placeholder="e.g. 110085">
+                                            <div class="invalid-feedback d-block" id="pincodeError"></div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="state">State</label>
+                                            <select class="form-control" id="state" name="state"
+                                                onchange="validateState(this)">
+                                                <option value="">Select</option>
+                                                {{#each states}}
+                                                <option value="{{this}}">{{this}}</option>
+                                                {{/each}}
+                                            </select>
+                                            <div class="invalid-feedback d-block" id="stateError"></div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="townCity">District</label>
+                                            <select class="form-control" id="townCity" name="townCity"
+                                                onchange="validateTownCity(this)">
+                                                <option value="">Must select state</option>
+                                                {{#each districts}}
+                                                <option value="{{this}}">{{this}}</option>
+                                                {{/each}}
+                                            </select>
+                                            <div class="invalid-feedback d-block" id="townCityError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-3 col-12">
+                                        <label for="phoneNumber">Phone Number</label>
+                                        <input type="number" class="form-control" id="phoneNumber" name="phoneNumber"
+                                            placeholder="e.g. 9999999999">
+                                        <div class="invalid-feedback d-block" id="phoneNumberError"></div>
+                                    </div>
+                                    <button type="submit" class="btn btn-info mt-3 submit">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h3>CHANGE PASSWORD</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="/profile/{{user._id}}/resetPasswordBySession" method="POST"
+                                    id="passwordForm">
+                                    <div class="form-group position-relative">
+                                        <label for="currentPassword">Current Password</label>
+                                        <input type="password" class="form-control" id="currentPassword"
+                                            name="currentPassword" placeholder="Enter current password">
+                                        <i
+                                            class="bi bi-eye-slash position-absolute end-0 me-2 toggle-password text-light"></i>
+                                    </div>
+                                    <div class="form-group mt-3 position-relative">
+                                        <label for="newPassword">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                            placeholder="Enter new password">
+                                        <i
+                                            class="bi bi-eye-slash position-absolute end-0 me-2 toggle-password text-light"></i>
+                                    </div>
+                                    <div class="form-group mt-3 position-relative">
+                                        <label for="confirmPassword">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword"
+                                            name="confirmPassword" placeholder="Enter confirm password">
+                                        <i
+                                            class="bi bi-eye-slash position-absolute end-0 me-2 toggle-password text-light"></i>
+                                    </div>
+                                    <button type="submit" class="btn btn-info mt-3 submit">Save Changes</button>
+                                </form>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- Addresses Section -->
+                    <div id="Addresses-Section" class="col-md-3"
+                        style="overflow-y: scroll; max-height: 500px; scrollbar-width: 20px;">
+
+                        {{#if addresses.length}}
+                        <form action="/profile/{{user._id}}/setDefault" method="post" class="addresses-form">
+                            {{#each addresses}}
+                            <div class="form-check">
+                                <input type="radio" class="btn-check" name="selectedAddressId" id="{{_id}}{{@index}}"
+                                    value="{{_id}}" {{#if isDefault}}checked{{/if}} autocomplete="off">
+                                <label class="btn btn-outline-secondary" id="addresses" for="{{_id}}{{@index}}">
+                                    <div class="d-flex flex-column align-items-start">
+                                        <span class="d-block">{{flatNo}}</span>
+                                        <span class="d-block">{{area}}</span>
+                                        <span class="d-block">{{pincode}}</span>
+                                        <span class="d-block">{{townCity}}</span>
+                                        <span class="d-block">{{state}}</span>
+                                        <span class="d-block">{{phoneNumber}}</span>
+                                        <div class="mx-auto col-12 mt-2 mb-2">
+                                            <button type="button" class="btn btn-outline-info col-5"
+                                                data-address-id="{{_id}}" data-flatNo="{{flatNo}}" data-area="{{area}}"
+                                                data-pincode="{{pincode}}" data-townCity="{{townCity}}"
+                                                data-state="{{state}}" data-phoneNumber="{{phoneNumber}}">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                                data-bs-target="#deleteAddressModal"
+                                                onclick="setDeleteAddressModal('{{_id}}', '{{../user._id}}');">
+                                                Delete
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            {{/each}}
+                            <button type="submit" class="btn btn-info submit " id="setAsDefault">Set as Default</button>
+                        </form>
+                        {{else}}
+                        <div class="alert alert-dismissible fade show" role="alert">
+                            <strong>Add new Address Alert!</strong><br> Please ensure all fields are filled out
+                            correctly before adding a new address.<strong style="color:red;"> You can only order if you
+                                have an address.</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {{/if}}
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        document.getElementById('passwordForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission to check validation first
+            let isValid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+
+            // Current Password Validation
+            const currentPassword = document.getElementById('currentPassword');
+            if (!currentPassword.value || currentPassword.value.length < 6) {
+                isValid = false;
+                showError(currentPassword, 'Current password must be at least 6 characters.');
+            }
+
+            // New Password Validation
+            const newPassword = document.getElementById('newPassword');
+            if (!newPassword.value || newPassword.value.length < 6) {
+                isValid = false;
+                showError(newPassword, 'New password must be at least 6 characters.');
+            }
+
+            // Confirm Password Validation
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (!confirmPassword.value || confirmPassword.value !== newPassword.value) {
+                isValid = false;
+                showError(confirmPassword, 'Passwords do not match.');
+            }
+
+            // If valid, submit the form
+            if (isValid) {
+                this.submit();
+            }
+        });
+
+        // Function to show error message
+        function showError(input, message) {
+            const error = document.createElement('div');
+            error.className = 'error-message text-danger small';
+            error.innerText = message;
+            input.parentElement.appendChild(error);
+        }
+
+
+
+        document.getElementById('editAddressForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            let valid = true;
+
+            const fields = [
+                { id: 'editFlatNo', errorId: 'flatNoError', message: 'Flat number is required.' },
+                { id: 'editArea', errorId: 'areaError', message: 'Area is required.' },
+                { id: 'editPincode', errorId: 'pincodeError', message: 'Pincode must be 6 digits.', pattern: /^\d{6}$/ },
+                { id: 'editState', errorId: 'stateError', message: 'Please select a state.' },
+                { id: 'editTownCity', errorId: 'townCityError', message: 'Please select a district.' },
+                { id: 'editPhoneNumber', errorId: 'phoneNumberError', message: 'Phone number must be 10 digits.', pattern: /^\d{10}$/ }
+            ];
+
+            fields.forEach(field => {
+                const input = document.getElementById(field.id);
+                const errorDiv = document.getElementById(field.errorId);
+                const value = input.value.trim();
+
+                if (!value || (field.pattern && !field.pattern.test(value))) {
+                    errorDiv.textContent = field.message;
+                    valid = false;
+                } else {
+                    errorDiv.textContent = '';
+                }
+            });
+
+            if (valid) {
+                this.submit();
+            }
+        });
+
+
+
+
+
+        const togglePassword = document.querySelectorAll('.toggle-password');
+        togglePassword.forEach(el => {
+            el.addEventListener('click', function () {
+                const input = this.parentElement.querySelector('input');
+                if (input.type == 'password') {
+                    input.type = 'text';
+                    this.classList.remove('bi-eye-slash');
+                    this.classList.add('bi-eye');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('bi-eye');
+                    this.classList.add('bi-eye-slash');
+                }
+            });
+        });
+
+        const message = document.getElementById('message').value;
+        if (message) {
+            var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
+            myModal.show();
+        }
+
+
+        document.getElementById('state').addEventListener('change', async function () {
+            const state = this.value;
+
+            // Clear the townCity dropdown
+            const districtDropdown = document.getElementById('townCity');
+            districtDropdown.innerHTML = '<option value="">Select</option>';
+
+            if (state) {
+                try {
+                    // Fetch districts for the selected state
+                    const response = await fetch(`/getDistricts/${state}`);
+                    const districts = await response.json();
+
+                    // Populate the district dropdown
+                    districts.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtDropdown.appendChild(option);
+                    });
+                } catch (error) {
+                    console.error("Error loading districts:", error);
+                }
+            }
+        });
+
+
+        document.getElementById('editState').addEventListener('click', async function () {
+            const state = this.value;
+
+            // Clear the townCity dropdown
+            const districtDropdown = document.getElementById('editTownCity');
+            districtDropdown.innerHTML = '<option value="">Select State</option>';
+
+            if (state) {
+                try {
+                    // Fetch districts for the selected state
+                    const response = await fetch(`/getDistricts/${state}`);
+                    const districts = await response.json();
+
+                    // Populate the district dropdown
+                    districts.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtDropdown.appendChild(option);
+                    });
+                } catch (error) {
+                    console.error("Error loading districts:", error);
+                }
+            }
+        });
+
+        const profileForm = document.getElementById('profileForm');
+        const usernameInput = document.getElementById('username');
+        const usernameError = document.getElementById('usernameError');
+
+        profileForm.addEventListener('submit', (e) => {
+            const username = usernameInput.value.trim();
+
+            if (username === '') {
+                e.preventDefault();
+                usernameError.textContent = 'Name is required';
+                usernameError.style.display = 'block';
+                return;
+            }
+
+            if (username.match(/[0-9]/)) {
+                e.preventDefault();
+                usernameError.textContent = 'Name should not contain numbers';
+                usernameError.style.display = 'block';
+                return;
+            }
+
+            if (username.match(/[!@#$%^&*(),.?":{}|<>\-_=+]/)) {
+                e.preventDefault();
+                usernameError.textContent = 'Name should not contain special characters';
+                usernameError.style.display = 'block';
+                return;
+            }
+
+            if (username.match(/^\s+/)) {
+                e.preventDefault();
+                usernameError.textContent = 'Name should not have leading spaces';
+                usernameError.style.display = 'block';
+                return;
+            }
+
+            const names = username.split(' ');
+            if (names.length < 2) {
+                e.preventDefault();
+                usernameError.textContent = 'Name should contain at least 2 words';
+                usernameError.style.display = 'block';
+                return;
+            }
+
+            if (!names.every(name => name.charAt(0) === name.charAt(0).toUpperCase())) {
+                e.preventDefault();
+                usernameError.textContent = 'First letter of each name should be capital';
+                usernameError.style.display = 'block';
+                return;
+            }
+
+            usernameError.style.display = 'none';
+        });
+
+
+        //address form validation
+        const form = document.querySelector('.addresses-form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let valid = true;
+
+            const inputs = form.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.classList.remove('is-invalid');
+                const errorDiv = document.getElementById(`${input.id}Error`);
+                errorDiv.textContent = "";
+
+                if (input.value.trim() === "") {
+                    input.classList.add('is-invalid');
+                    errorDiv.textContent = "This field is required";
+                    valid = false;
+                }
+
+                if (input.type === "number") {
+                    const numValue = Number(input.value);
+                    if (isNaN(numValue)) {
+                        input.classList.add('is-invalid');
+                        errorDiv.textContent = "Please enter a valid number";
+                        valid = false;
+                    }
+
+                    if (input.id === "pincode" && (numValue < 100000 || numValue > 999999)) {
+                        input.classList.add('is-invalid');
+                        errorDiv.textContent = "Pincode should be 6 digits";
+                        valid = false;
+                    }
+
+                    if (input.id === "phoneNumber" && (numValue < 1000000000 || numValue > 9999999999)) {
+                        input.classList.add('is-invalid');
+                        errorDiv.textContent = "Phone Number should be 10 digits";
+                        valid = false;
+                    }
+                }
+
+                if (input.value.includes(" ") || input.value.includes("\t")) {
+                    input.classList.add('is-invalid');
+                    errorDiv.textContent = "No escape characters allowed";
+                    valid = false;
+                }
+            });
+
+            validateState(document.getElementById('state'));
+            validateTownCity(document.getElementById('townCity'));
+
+            if (valid) {
+                form.submit();
+            }
+        });
+
+        function validateState(state) {
+            if (state.value == "") {
+                document.getElementById('stateError').innerText = "Please select state";
+            } else {
+                document.getElementById('stateError').innerText = "";
+            }
+        }
+
+        function validateTownCity(townCity) {
+            if (townCity.value == "") {
+                document.getElementById('townCityError').innerText = "Please select district";
+            } else {
+                document.getElementById('townCityError').innerText = "";
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        function setDeleteAddressModal(addressId, userId) {
+            // Set the hidden input field with the address ID
+            document.getElementById('deleteAddressId').value = addressId;
+
+            // Set the form's action to include the addressId in the URL
+            document.getElementById('deleteAddressForm').action = `/profile/${userId}/deleteAddress/${addressId}`;
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll('.btn-outline-info'); // All Edit buttons
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Get the address details from the button's parent or a data attribute
+                    const addressId = this.getAttribute('data-address-id');
+                    const flatNo = this.getAttribute('data-flatNo');
+                    const area = this.getAttribute('data-area');
+                    const pincode = this.getAttribute('data-pincode');
+                    const townCity = this.getAttribute('data-townCity');
+                    const state = this.getAttribute('data-state');
+                    const phoneNumber = this.getAttribute('data-phoneNumber');
+
+                    // Set the values in the modal form
+                    document.getElementById('editFlatNo').value = flatNo;
+                    document.getElementById('editArea').value = area;
+                    document.getElementById('editPincode').value = pincode;
+                    document.getElementById('editTownCity').value = townCity;
+                    document.getElementById('editState').value = state;
+                    document.getElementById('editPhoneNumber').value = phoneNumber;
+                    document.getElementById('editAddressId').value = addressId; // Set the address ID
+
+                    // Show the modal
+                    var myModal = new bootstrap.Modal(document.getElementById('editAddressModal'));
+                    myModal.show();
+                });
+            });
+        });
+
+
+
+        const toggleButton = document.getElementById('logo-img');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleButton.addEventListener('click', function () {
+            sidebar.classList.toggle('minimized');
+        });
+
+        // Minimize sidebar by default for small screens on page load
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('minimized');
+        }
+
+        // Adjust when window is resized (optional, but good for UX)
+        window.addEventListener('resize', function () {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('minimized');
+            } else {
+                sidebar.classList.remove('minimized');
+            }
+        });
+
+    </script>
+</body>
+
+</html>

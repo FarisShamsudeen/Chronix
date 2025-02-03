@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Style/admin/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard</title>
+
+    <link rel="icon" type="image/png" href="/Images/Logo/favicon_without_bg.png">
+</head>
+
+<body>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/admin/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <nav class="navbar navbar-expand-lg bg-body-dark d-flex justify-content-between">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img id="logo-img" src="/Images/Logo/secondary_logo_black_without_bg.webp" alt="CHRONIX Secondary Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <form class="d-flex ms-auto align-items-center" role="search">
+
+                    {{#if admin}}
+                    <a class="navbar_username justify-content-center text-decoration-none text-center me-5 fs-5"
+                        data-bs-toggle="modal" data-bs-target="#logoutModal">{{{admin.username}}}
+                    </a>
+                    {{else}}
+                    <a class="navbar_username me-3 text-decoration-none justify-content-center" href="/admin/logout"
+                        class=""><i class="bi bi-box-arrow-right"></i> LOG OUT</a>
+
+                    {{/if}}
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="main d-flex gap-1">
+        <div id="sidebar" class="sidebar">
+            <ul class="list-unstyled">
+                <li id="dashboard" class="sidebar-item"><a href="/admin/dashboard" class="text-decoration-none"><i
+                            class="bi bi-graph-up-arrow"></i>
+                        <span class="item-text"> Dashboard</span></a></li>
+                <li id="users" class="sidebar-item"><a href="/admin/users" class="text-decoration-none"><i
+                            class="bi bi-people"></i>
+                        <span class="item-text"> Users</span></a></li>
+                <li id="orders" class="sidebar-item"><a href="/admin/orders" class="text-decoration-none"><i
+                            class="bi bi-cart-check"></i>
+                        <span class="item-text"> Orders</span></a></li>
+                <li id="products" class="sidebar-item"><a href="/admin/products" class="text-decoration-none"><i
+                            class="bi bi-watch"></i>
+                        <span class="item-text"> Products</span></a></li>
+                <li id="categories" class="sidebar-item"><a href="/admin/categories" class="text-decoration-none"><i
+                            class="bi bi-inboxes"></i>
+                        <span class="item-text"> Categories</span></a></li>
+                <li id="offers" class="sidebar-item"><a href="/admin/offers" class="text-decoration-none"><i
+                            class="bi bi-tags"></i>
+                        <span class="item-text"> Offers</span></a></li>
+
+                <li id="coupons" class="sidebar-item"><a href="/admin/coupons" class="text-decoration-none"><i
+                            class="bi bi-ticket-perforated"></i>
+                        <span class="item-text"> Coupons</span></a></li>
+                <li id="logout" class="sidebar-item">
+                    <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="item-text ms-2">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div id="main-content" class="container-fluid"
+                style="overflow-y: scroll; max-height: 500px; scrollbar-width: 20px;">
+                <!-- Summary Cards -->
+                <div class="row mb-4 g-3">
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-white">Total Sales</h6>
+                                        <h3 class="text-white mb-0">₹{{ totalSales }}</h3>
+                                    </div>
+                                    <div class="fs-1">
+                                        <i class="bi bi-currency-rupee"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-white">Total Orders</h6>
+                                        <h3 class="text-white mb-0">{{totalOrders}}</h3>
+                                    </div>
+                                    <div class="fs-1">
+                                        <i class="bi bi-cart-check"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-white">Total Products</h6>
+                                        <h3 class="text-white mb-0">{{totalProducts}}</h3>
+                                    </div>
+                                    <div class="fs-1">
+                                        <i class="bi bi-watch"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-white">Total Customers</h6>
+                                        <h3 class="text-white mb-0">{{totalCustomers}}</h3>
+                                    </div>
+                                    <div class="fs-1">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row mb-4">
+                    <div class="col-xl-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Revenue Analytics</h5>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title mb-0">Sales Report</h5>
+                                    <div class="filter-container">
+                                        <select id="dateRangeFilter" class="form-select" style="width: auto;">
+                                            <option value="daily">Daily</option>
+                                            <option value="weekly">Weekly</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="yearly">Yearly</option>
+                                            <option value="custom">Custom</option>
+                                        </select>
+                                        <div id="customDateRange" style="display: none;">
+                                            <input type="date" id="startDate" class="form-control" />
+                                            <input type="date" id="endDate" class="form-control" />
+                                            <button id="applyCustomDate" class="btn btn-primary">Apply</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                <canvas id="revenueChart" style="height: 300px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Tabs Section -->
+                    <div class="tab-content col-xl-4">
+                        <!-- Tab-style buttons -->
+                        <div class="custom-tabs">
+                            <div class="tab-buttons-container">
+                                <button class="tab-button active" onclick="showContent('topCategories')">
+                                    <i class="bi bi-inboxes me-1"></i>Top Categories
+                                </button>
+                                <button class="tab-button" onclick="showContent('topProducts')">
+                                    <i class="bi bi-watch me-1"></i>Top Products
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Content sections -->
+                        <div class="tab-content-container">
+
+                            <div id="topCategories-content" class="content-section">
+                                <div class="card top_graph">
+                                    <div class="card-body">
+                                        <canvas id="categoryChart" style="height: 300px; width: 100%;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="topProducts-content" class="content-section" style="display: none;">
+                                <div class="card top_graph">
+                                    <div class="card-body">
+                                        <div style="width: 100%; max-width: 400px; margin: auto; height: 300px;">
+                                            <canvas id="topProductsChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Recent Activity -->
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Recent Orders</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Customer</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each recentOrders}}
+                                            <tr>
+                                                <td>#{{ this._id }}</td>
+                                                <td>{{ this.user_id.username }}</td>
+                                                <td>₹{{ this.totalAmount }}</td>
+                                                <td>
+                                                    <span
+                                                        class="badge {{ getStatusClass this.delivery_status }}">{{this.delivery_status}}</span>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Stock Alerts</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group">
+                                    {{#if lowStockProducts.length}}
+                                    {{#each lowStockProducts}}
+                                    <a href="/admin/products/edit-product/{{ this._id }}"
+                                        class="list-group-item list-group-item-action">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">{{ this.product_name }}</h6>
+                                                <small
+                                                    class="{{#if (lt this.stock 5)}}text-danger{{else}}text-warning{{/if}}">
+                                                    Only {{ this.stock }} left in stock
+                                                </small>
+                                            </div>
+                                            <span
+                                                class="badge {{#if (lt this.stock 5)}}bg-danger{{else}}bg-warning{{/if}} rounded-pill">
+                                                {{ this.stock }}
+                                            </span>
+                                        </div>
+                                    </a>
+                                    {{/each}}
+                                    {{else}}
+                                    <div class="text-center">
+                                        <span class="badge bg-info">No Low Stock Products</span>
+                                    </div>
+                                    {{/if}}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card ">
+                            <div class="card-header d-flex justify-content-between align-items-center ">
+                                <h5 class="card-title mb-0">Sales Report</h5>
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Download Report
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li id="download-pdf" class="dropdown-item">Download PDF</li>
+                                        <li id="download-excel" class="dropdown-item">Download Excel</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive sales-table">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Total Amount</th>
+                                                <th>Discount</th>
+                                                <th>Order Status</th>
+                                                <th>Payment</th>
+                                                <th>Ordered At</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each orders}}
+                                            <tr>
+                                                <td>{{user_id.username}}</td>
+                                                <td>₹{{totalAmount}}</td>
+                                                <td>{{#if couponCode}}₹{{couponCode}}{{else}}No Coupon Used{{/if}}</td>
+                                                <td>{{delivery_status}}</td>
+                                                <td>{{payment_status}}</td>
+                                                <td>{{moment orderedOn "DD/MM/YYYY hh:mm A"}}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        document.getElementById('dateRangeFilter').addEventListener('change', async (event) => {
+            const filterValue = event.target.value;
+
+            if (filterValue === 'custom') {
+                document.getElementById('customDateRange').style.display = 'flex';
+            } else {
+                document.getElementById('customDateRange').style.display = 'none';
+                updateSalesData({ filter: filterValue });
+            }
+        });
+
+        document.getElementById('applyCustomDate').addEventListener('click', async () => {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            if (startDate && endDate) {
+                updateSalesData({ filter: 'custom', startDate, endDate });
+            } else {
+                alert('Please select both start and end dates.');
+            }
+        });
+
+        async function updateSalesData(filterOptions) {
+            try {
+                const response = await fetch('/admin/sales-report/filter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(filterOptions),
+                });
+
+                if (response.ok) {
+                    const { salesData, revenueData } = await response.json();
+
+                    // Update table
+                    const tableBody = document.querySelector('.sales-table tbody');
+                    tableBody.innerHTML = salesData.map(sale => `
+                <tr>
+                    <td>${sale.user}</td>
+                    <td>₹${sale.totalAmount}</td>
+                    <td>${sale.discount || 'No Coupon Used'}</td>
+                    <td>${sale.orderStatus}</td>
+                    <td>${sale.paymentStatus}</td>
+                    <td>${sale.orderedAt}</td>
+                </tr>
+            `).join('');
+
+                    // Update graph
+                    const revenueChart = Chart.getChart('revenueChart'); // Get existing chart
+                    revenueChart.data.labels = revenueData.labels;
+                    revenueChart.data.datasets[0].data = revenueData.values;
+                    revenueChart.update();
+                }
+            } catch (error) {
+                console.error('Error fetching filtered sales data:', error);
+            }
+        }
+
+
+
+        const topProducts = {{{ json topProducts }}}; // Inject top products data
+
+        // Extract labels and data for the chart
+        const productLabels = topProducts.map(product => product.productName);
+        const productData = topProducts.map(product => product.totalQuantity);
+
+        // Create a donut chart for top products
+        const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+        new Chart(topProductsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: productLabels, // Product names
+                datasets: [{
+                    label: 'Top Products',
+                    data: productData, // Quantities sold
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(153, 102, 255)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+
+        const revenueAnalytics = {{{ json revenueAnalytics }}}; // Inject revenue data
+
+        // Extract months and revenues
+        const revenueLabels = revenueAnalytics.map(analytics => {
+            const month = new Date(0);
+            month.setMonth(analytics._id - 1);  // Convert month number to month name
+            return month.toLocaleString('en-US', { month: 'short' }); // Convert month to 'Jan', 'Feb', etc.
+        });
+
+        const revenueData = revenueAnalytics.map(analytics => analytics.revenue);
+        // Create the revenue chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: revenueLabels, // Dynamically populated labels from backend
+                datasets: [{
+                    label: 'Revenue',
+                    data: revenueData, // Dynamically populated revenue data from backend
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        const topCategories = {{{ json topCategories }}};
+        console.log(topCategories);
+
+
+        // Extract category names and counts
+        const categoryLabels = topCategories.map(category => category.category_name);
+        const categoryData = topCategories.map(category => category.count);
+
+        // Create the chart
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: categoryLabels, // Dynamically populated labels from backend
+                datasets: [{
+                    data: categoryData, // Dynamically populated data from backend
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(153, 102, 255)' // Add more colors as needed
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+
+
+        document.getElementById('download-pdf').addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            // Capture the table using html2canvas
+            const table = document.querySelector('.sales-table');
+            const canvas = await html2canvas(table);
+            const imgData = canvas.toDataURL('image/png');
+
+            // Add the image to the PDF
+            const imgWidth = 190; // Fit width on A4
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+
+            // Save the PDF
+            pdf.save('Sales_Report.pdf');
+        });
+
+
+        document.getElementById('download-excel').addEventListener('click', () => {
+            const table = document.querySelector('.sales-table');
+            const workbook = XLSX.utils.table_to_book(table, { sheet: "Sales Report" });
+            XLSX.writeFile(workbook, 'Sales_Report.xlsx');
+        });
+
+
+        const toggleButton = document.getElementById('logo-img');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleButton.addEventListener('click', function () {
+            sidebar.classList.toggle('minimized');
+        });
+
+        // Minimize sidebar by default for small screens on page load
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('minimized');
+        }
+
+        // Adjust when window is resized (optional, but good for UX)
+        window.addEventListener('resize', function () {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('minimized');
+            } else {
+                sidebar.classList.remove('minimized');
+            }
+        });
+
+        const togglePassword = document.querySelectorAll('.toggle-password');
+        togglePassword.forEach(el => {
+            el.addEventListener('click', function () {
+                const input = this.parentElement.querySelector('input');
+                if (input.type == 'password') {
+                    input.type = 'text';
+                    this.classList.remove('bi-eye-slash');
+                    this.classList.add('bi-eye');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('bi-eye');
+                    this.classList.add('bi-eye-slash');
+                }
+            });
+        });
+
+
+
+        function showContent(contentType) {
+            // Hide all content sections
+            const contentSections = document.querySelectorAll('.content-section');
+            contentSections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the selected content
+            document.getElementById(contentType + '-content').style.display = 'block';
+
+            // Update button styles
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('onclick').includes(contentType)) {
+                    button.classList.add('active');
+                }
+            });
+        }
+
+        // Initialize the carousel with auto-scrolling
+        const carousel = new bootstrap.Carousel(document.querySelector('#productCarousel'), {
+            interval: 3000,
+            wrap: true,
+            touch: true,
+            keyboard: true,
+            pause: 'hover',
+            ride: 'carousel',
+            indicators: true
+        });
+
+    </script>
+</body>
+
+</html>

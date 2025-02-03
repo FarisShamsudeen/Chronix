@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/6f37dbd5de.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Style/user/checkout.css">
+
+
+    <title>Checkout</title>
+
+    <link rel="icon" type="image/png" href="/Images/Logo/favicon_without_bg.png">
+</head>
+
+<body>
+
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="text" name="message" id="message" value="{{{message}}}" hidden>
+    <!-- Modal HTML -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{{message}}} <!-- Dynamic message passed from res.render -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <nav class="navbar navbar-expand-lg bg-body-dark d-flex justify-content-between">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img id="logo-img" src="/Images/Logo/secondary_logo_without_bg.webp" alt="CHRONIX Secondary Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  justify-content-end " id="navbarScroll">
+                {{#if user.username}}
+                <p class="d-flex justify-content-end navbar_username mt-3 me-5"><a href="/profile"
+                        class="text-decoration-none text-center">{{{user.username}}}</a></p>
+                {{else}}
+                <p class="d-flex navbar_username mt-3 me-5"><a href="/login" class="text-decoration-none text-center"><i
+                            class="bi bi-box-arrow-right"></i> LOG IN {{user}}
+                    </a>
+                </p>
+                {{/if}}
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content d-flex">
+
+        <div id="sidebar" class="sidebar me-3">
+            <ul class="list-unstyled">
+                <li id="home" class="sidebar-item"><a href="/" class="d-flex align-items-center text-decoration-none"><i
+                            class="bi bi-house-door"></i><span class="item-text ms-2"> Home</span></a></li>
+                <li id="explore" class="sidebar-item"><a href="/explore"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-compass"></i><span
+                            class="item-text ms-2"> Explore</span></a></li>
+                <li id="wishlist" class="sidebar-item"><a href="/wishlist"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-heart"></i><span
+                            class="item-text ms-2"> Wishlist</span></a></li>
+                <li id="cart" class="sidebar-item"><a href="/cart"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-cart2"></i><span
+                            class="item-text ms-2"> Cart</span></a></li>
+                <li id="profile" class="sidebar-item"><a href="/profile"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-person"></i><span
+                            class="item-text ms-2"> Profile</span></a></li>
+                <li id="orders" class="sidebar-item"><a href="/orders"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-clock-history"></i><span
+                            class="item-text ms-2"> Orders</span></a></li>
+
+                <li id="wallet" class="sidebar-item"><a href="/wallet"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-wallet"></i><span
+                            class="item-text ms-2"> Wallet</span></a></li>
+                <li id="logout" class="sidebar-item">
+                    <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="item-text ms-2">Logout</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <div class="container">
+            <div class="row">
+                <!-- Main Checkout Content -->
+                <div class="col-lg-8">
+                    <div class="checkout-container" id="checkout-box">
+                        <div class="address-container">
+                            <!-- Delivery Address Section -->
+                            <h4 class="text-info fs-4 fw-bold mb-3">Delivery Address</h4>
+                            <div class="address-section mb-4">
+                                <!-- Adjusted each block for Edit button -->
+                                {{#each userAddresses}}
+                                <div class="address-card {{#if this.isDefault}}selected{{/if}}">
+                                    <input type="radio" class="btn-check" name="address" id="{{this._id}}"
+                                        value="{{this._id}}" autocomplete="off" {{#if this.isDefault}}checked{{/if}}>
+                                    <label class="btn btn-outline-info d-flex" id="address" for="{{this._id}}">
+                                        <div>
+                                            <span id="selectedFlatNo"><strong>{{this.flatNo}}</strong></span>
+                                            <span id="selectedArea">{{this.area}}</span>
+                                            <span id="selectedTownCity">{{this.townCity}}</span>
+                                            <span id="selectedState">{{this.state}}</span>
+                                            <span id="selectedPincode">{{this.pincode}}</span>
+                                            <span id="selectedPhoneNumber">Phone: {{this.phoneNumber}}</span>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary edit-button"
+                                            data-address-id="{{this._id}}" data-flatNo="{{this.flatNo}}"
+                                            data-area="{{this.area}}" data-pincode="{{this.pincode}}"
+                                            data-townCity="{{this.townCity}}" data-state="{{this.state}}"
+                                            data-phoneNumber="{{this.phoneNumber}}">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                    </label>
+                                </div>
+                                {{/each}}
+                            </div>
+                            <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal"
+                                data-bs-target="#addAddressModal">
+                                Add New Address
+                            </button>
+                        </div>
+
+
+                        <div class="payment-container">
+                            <!-- Payment Options Section -->
+                            <h4 class="text-info fs-4 fw-bold ms-4 mt-2">Payment Method</h4>
+                            <div class="payment-section">
+                                <div class="payment-box gap-3">
+                                    <div class="payment-option">
+                                        <input type="radio" class="btn-check" name="paymentMethod" value="paypal"
+                                            id="paypal" autocomplete="off">
+                                        <label class="btn btn-outline-secondary pay-btn" for="paypal">
+                                            <i class="bi bi-paypal ms-1 me-2 fs-5"></i>
+                                            PayPal
+                                        </label>
+                                    </div>
+                                    <div class="payment-option">
+                                        <input type="radio" class="btn-check" name="paymentMethod" value="cod" id="cod"
+                                            autocomplete="off" checked>
+                                        <label class="btn btn-outline-secondary pay-btn" for="cod">
+                                            <i class="bi bi-cash ms-1 me-2 fs-5"></i>
+                                            Cash on Delivery
+                                        </label>
+                                    </div>
+                                </div>
+                                <a href="/paypalCredentials/{{testEmail}}/{{testPassword}}" class="text-info fs-6"
+                                    id="liveToastBtn" target="_blank" rel="noopener noreferrer"
+                                    style="display: none;">If you're using Paypal, click here</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Order Summary Sidebar -->
+                <div class="col-lg-4">
+                    <div class="checkout-container order-summary">
+                        <form id="orderForm">
+                            <h4 class="text-info fs-3 fw-bold">Order Summary</h4>
+                            <input type="hidden" name="selectedAddressId" id="selectedAddressId">
+                            <input type="hidden" name="paymentMethod" id="paymentMethod">
+
+                            <!-- Product details -->
+                            <span class="text-secondary mb-2 fs-5 fw-bold">Product Details</span>
+                            <div class="product-details mb-3">
+                                {{#if cartItems}}
+                                <ol>
+                                    {{#each cartItems}}
+                                    <li class="product-item mb-2 pe-3">
+                                        <div class="summary-item d-flex justify-content-between mb-2">
+                                            <span>Product Name</span>
+                                            <span class="text-warning fw-bold">{{this.product_id.product_name}}</span>
+                                        </div>
+                                        <div class="summary-item d-flex justify-content-between mb-2">
+                                            <span>Qty</span>
+                                            <span>{{this.quantity}}</span>
+                                        </div>
+                                        <div class="summary-item d-flex justify-content-between mb-2">
+                                            <span>Price</span>
+                                            {{#if (gt this.discount 0)}}
+                                            <span>₹ {{this.discountedPrice}} ({{this.discount}}% OFF)</span>
+                                            {{else}}
+                                            <span>₹ {{this.product_id.currentPrice}}</span>
+                                            {{/if}}
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ol>
+                                {{else}}
+                                <p>No products in cart.</p>
+                                {{/if}}
+                            </div>
+
+                            <!-- Coupon Section -->
+                            <div class="coupon-section mb-3">
+                                <select class="form-select" aria-label="Select Coupon" id="couponSelect">
+                                    {{#if coupons.length}}
+                                    <option id="noCouponSelected" selected>Select a Coupon</option>
+                                    {{#each coupons}}
+                                    <option value="{{this.code}}">{{this.code}} - {{this.discount}}% off</option>
+                                    {{/each}}
+                                    {{else}}
+                                    <option selected>No Coupons Available</option>
+                                    {{/if}}
+                                </select>
+
+                            </div>
+                            <button type="button" class="mb-3 btn btn-danger w-100 d-none" id="removeCoupon">Remove
+                                Coupon</button>
+
+                            <!-- Order summary -->
+                            <div class="summary_scrollable mb-3">
+                                <div class="summary-item d-flex justify-content-between mb-2" id="subtotalRow">
+                                    <span>Subtotal</span>
+                                    <span id="subtotal">₹ {{cartSummary.subtotal}}</span>
+                                </div>
+                                <div class="summary-item d-flex justify-content-between mb-2 d-none"
+                                    id="updatedSubtotalRow">
+                                    <span>Updated Subtotal</span>
+                                    <span id="updatedSubtotal">₹ {{cartSummary.subtotal}}</span>
+                                </div>
+                                <div class="summary-item d-flex justify-content-between mb-2" id="discountRow">
+                                    <span>Discount</span>
+                                    <span id="discountAmount">₹ {{cartSummary.subtotalDiscount}}</span>
+                                </div>
+                                <div class="summary-item d-flex justify-content-between mb-2">
+                                    <span>Tax</span>
+                                    <span>₹ {{cartSummary.tax}}</span>
+                                </div>
+                                <div class="summary-item d-flex justify-content-between mb-2">
+                                    <span>Shipping</span>
+                                    <span>₹ {{cartSummary.shipping}}</span>
+                                </div>
+                            </div>
+                            <div class="summary-item d-flex justify-content-between mb-3">
+                                <strong>Total</strong>
+                                <strong id="orderTotal">₹ {{cartSummary.total}}</strong>
+                            </div>
+                            <button type="submit" class="btn btn-outline-warning w-100" id="placeOrderBtn">Place
+                                Order</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Adding Address -->
+        <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addressModalLabel">Add New Address</h5>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add Address Form -->
+                        <form id="AddressForm" action="/profile/{{user._id}}/checkout/addNewAddress" method="POST"
+                            novalidate>
+                            <div class="form-group">
+                                <label for="FlatNo">Flat, House no., Building, Company, Apartment</label>
+                                <input type="text" class="form-control" id="flatNo" name="flatNo" required>
+                                <div class="invalid-feedback d-block" id="flatNoError"></div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="Area">Area, Landmark, Street, Sector, Village</label>
+                                <input type="text" class="form-control" id="area" name="area" required>
+                                <div class="invalid-feedback d-block" id="areaError"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="form-group col-md-4">
+                                    <label for="Pincode">Pincode</label>
+                                    <input type="number" class="form-control" id="pincode" name="pincode" required>
+                                    <div class="invalid-feedback d-block" id="pincodeError"></div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="state">State</label>
+                                    <select class="form-control" id="state" name="state" onclick="validateState(this)">
+                                        <option value="">Select</option>
+                                        {{#each states}}
+                                        <option value="{{this}}">{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div class="invalid-feedback d-block" id="stateError"></div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="townCity">District</label>
+                                    <select class="form-control" id="townCity" name="townCity"
+                                        onchange="validateTownCity(this)">
+                                        <option value="">Must Select State</option>
+                                        {{#each districts}}
+                                        <option value="{{this}}">{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div class="invalid-feedback d-block" id="townCityError"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="PhoneNumber">Phone Number</label>
+                                <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                                <div class="invalid-feedback d-block" id="phoneNumberError"></div>
+                            </div>
+                            <div class="gap-2 col-12 row">
+                                <button type="submit" class="btn btn-info col-5 mt-3 ms-5">Save Address</button>
+                                <button type="button" class="btn btn-secondary mt-3 col-5" data-bs-dismiss="modal"
+                                    aria-label="Close">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Modal for Editing Address -->
+        <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAddressModalLabel">Edit Address</h5>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Edit Address Form -->
+                        <form id="editAddressForm" action="/profile/{{user._id}}/checkout/editAddress" method="POST"
+                            novalidate>
+                            <div class="form-group">
+                                <label for="editFlatNo">Flat, House no., Building, Company, Apartment</label>
+                                <input type="text" class="form-control" id="editFlatNo" name="flatNo" required>
+                                <div class="invalid-feedback d-block" id="editFlatNoError"></div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="editArea">Area, Landmark, Street, Sector, Village</label>
+                                <input type="text" class="form-control" id="editArea" name="area" required>
+                                <div class="invalid-feedback d-block" id="editAreaError"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="form-group col-md-4">
+                                    <label for="editPincode">Pincode</label>
+                                    <input type="number" class="form-control" id="editPincode" name="pincode" required>
+                                    <div class="invalid-feedback d-block" id="editPincodeError"></div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="editState">State</label>
+                                    <select class="form-control" id="editState" name="state">
+                                        <option value="">Select</option>
+                                        {{#each states}}
+                                        <option value="{{this}}">{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div class="invalid-feedback d-block" id="editStateError"></div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="editTownCity">District</label>
+                                    <select class="form-control" id="editTownCity" name="townCity">
+                                        <option value="">Select state again</option>
+                                        {{#each districts}}
+                                        <option value="{{this}}">{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div class="invalid-feedback d-block" id="editTownCityError"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="editPhoneNumber">Phone Number</label>
+                                <input type="number" class="form-control" id="editPhoneNumber" name="phoneNumber"
+                                    required>
+                                <div class="invalid-feedback d-block" id="editPhoneNumberError"></div>
+                            </div>
+                            <input type="hidden" id="editAddressId" name="addressId">
+                            <div class="gap-2 col-12 row">
+                                <button type="submit" class="btn btn-info col-5 mt-3 ms-5">Save Changes</button>
+                                <button type="button" class="btn btn-secondary mt-3 col-5" data-bs-dismiss="modal"
+                                    aria-label="Close">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+
+        <script>
+
+
+            const removeCoupon = document.getElementById('removeCoupon');
+            const couponSelect = document.getElementById('couponSelect');
+
+            var storeTotal = 0;
+            var storeSubtotal = 0;
+            var storediscountAmount = 0;
+
+            removeCoupon.addEventListener('click', async function () {
+                try {
+                    const response = await fetch('/remove-coupon', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const result = await response.json();
+                    console.log('Response received:', result);
+
+                    const discountAmountElement = document.getElementById('discountAmount');
+                    const updatedSubtotalElement = document.getElementById('updatedSubtotal');
+                    const orderTotalInput = document.getElementById('orderTotal');
+
+
+                    if (result.success) {
+                        couponSelect.disabled = false;
+                        removeCoupon.classList.add('d-none');
+                        couponSelect.classList.remove('d-none');
+                        showModal('Coupon removed successfully');
+
+                        discountAmountElement.textContent = `₹ ${storediscountAmount.toFixed(2)}`;
+                        updatedSubtotalElement.textContent = `₹ ${storeSubtotal.toFixed(2)}`;
+                        orderTotalInput.textContent = `${storeTotal.toFixed(2)}`;
+                    } else {
+                        showModal(result.message);
+                    }
+                } catch (error) {
+                    console.log('Error while removeCoupon function is called:', error);
+                }
+            });
+
+
+            const message = "{{{message}}}";
+            if (message) {
+                const messageInput = document.getElementById('message');
+                const modalBody = document.querySelector('#messageModal .modal-body');
+
+                // Set the message value and modal body content
+                messageInput.value = message;
+                modalBody.textContent = message;
+
+                // Show the modal
+                const modal = new bootstrap.Modal(document.getElementById('messageModal'));
+                modal.show();
+            }
+
+
+            // Function to show the modal with a dynamic message
+            function showModal(message) {
+                const messageInput = document.getElementById('message');
+                const modalBody = document.querySelector('#messageModal .modal-body');
+
+                // Set the message value and modal body content
+                messageInput.value = message;
+                modalBody.textContent = message;
+
+                // Show the modal
+                const modal = new bootstrap.Modal(document.getElementById('messageModal'));
+                modal.show();
+            }
+
+            couponSelect.addEventListener('change', async function () {
+                console.log('couponSelect event triggered');
+                const couponCode = couponSelect.value;
+                console.log('Coupon code:', couponCode);
+                if (couponCode) {
+                    console.log('Coupon code is not empty');
+                    try {
+                        console.log('Applying coupon:', couponCode);
+                        const response = await fetch('/apply-coupon', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ couponCode })
+                        });
+                        console.log('Response received:', response);
+                        const result = await response.json();
+                        console.log('Response JSON:', result);
+
+                        const discountAmountElement = document.getElementById('discountAmount');
+                        const updatedSubtotalElement = document.getElementById('updatedSubtotal');
+                        const orderTotalInput = document.getElementById('orderTotal');
+
+                        if (result.success) {
+                            console.log('Coupon applied successfully');
+                            document.getElementById('discountRow').classList.remove('d-none');
+                            document.getElementById('updatedSubtotalRow').classList.remove('d-none');
+                            document.getElementById('subtotalRow').classList.add('d-none');
+
+                            storediscountAmount = parseFloat(discountAmountElement.textContent.match(/\d+(\.\d+)?/)[0]);
+                            storeSubtotal = parseFloat(updatedSubtotalElement.textContent.match(/\d+(\.\d+)?/)[0]);
+                            storeTotal = parseFloat(orderTotalInput.textContent.match(/\d+(\.\d+)?/)[0]);
+                            discountAmountElement.textContent = `₹ ${result.discountAmount.toFixed(2)}`;
+                            updatedSubtotalElement.textContent = `₹ ${result.newSubtotal.toFixed(2)}`;
+                            orderTotalInput.textContent = `${result.newTotal.toFixed(2)}`;
+                            couponSelect.disabled = true;
+                            document.getElementById('removeCoupon').classList.remove('d-none');
+                            couponSelect.classList.add('d-none');
+
+
+                            showModal('Coupon applied successfully');
+                        } else {
+                            console.log('Coupon not applied:', result.message);
+                            showModal(result.message);
+                        }
+
+                    } catch (error) {
+                        console.log('Error applying coupon:', error);
+                        showModal('Failed to apply coupon. Please try again.');
+                    }
+                    couponSelect.value = 'Select a Coupon';
+                }
+            });
+
+
+            const paypalRadio = document.getElementById('paypal');
+            const codRadio = document.getElementById('cod');
+            const liveToastBtn = document.getElementById('liveToastBtn');
+
+            paypalRadio.addEventListener('change', function () {
+                liveToastBtn.style.display = paypalRadio.checked ? 'block' : 'none';
+            });
+
+            codRadio.addEventListener('change', function () {
+                liveToastBtn.style.display = codRadio.checked ? 'none' : 'block';
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const editAddressForm = document.getElementById("editAddressForm");
+
+                editAddressForm.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    clearErrors();
+                    let formIsValid = true;
+
+                    const flatNo = document.getElementById("editFlatNo");
+                    if (!validateNonEmpty(flatNo)) {
+                        showError(flatNo, "Flat No. is required.");
+                        formIsValid = false;
+                    }
+
+                    const area = document.getElementById("editArea");
+                    if (!validateNonEmpty(area)) {
+                        showError(area, "Area is required.");
+                        formIsValid = false;
+                    }
+
+                    const pincode = document.getElementById("editPincode");
+                    if (!validatePincode(pincode)) {
+                        showError(pincode, "Pincode must be 6 digits.");
+                        formIsValid = false;
+                    }
+
+                    const state = document.getElementById("editState");
+                    if (!validateNonEmpty(state)) {
+                        showError(state, "Please select a state.");
+                        formIsValid = false;
+                    }
+
+                    const townCity = document.getElementById("editTownCity");
+                    if (!validateNonEmpty(townCity)) {
+                        showError(townCity, "Please select a district.");
+                        formIsValid = false;
+                    }
+
+                    const phoneNumber = document.getElementById("editPhoneNumber");
+                    if (!validatePhoneNumber(phoneNumber)) {
+                        showError(phoneNumber, "Phone Number must be 10 digits.");
+                        formIsValid = false;
+                    }
+
+                    if (formIsValid) {
+                        editAddressForm.submit();
+                    } else {
+                        editAddressForm.classList.add("was-validated");
+                    }
+                });
+
+                const editButtons = document.querySelectorAll('.edit-button');
+                editButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const addressId = this.getAttribute('data-address-id');
+                        const flatNo = this.getAttribute('data-flatNo');
+                        const area = this.getAttribute('data-area');
+                        const pincode = this.getAttribute('data-pincode');
+                        const townCity = this.getAttribute('data-townCity');
+                        const state = this.getAttribute('data-state');
+                        const phoneNumber = this.getAttribute('data-phoneNumber');
+
+                        document.getElementById('editFlatNo').value = flatNo;
+                        document.getElementById('editArea').value = area;
+                        document.getElementById('editPincode').value = pincode;
+                        document.getElementById('editTownCity').value = townCity;
+                        document.getElementById('editState').value = state;
+                        document.getElementById('editPhoneNumber').value = phoneNumber;
+                        document.getElementById('editAddressId').value = addressId;
+
+                        var myModal = new bootstrap.Modal(document.getElementById('editAddressModal'));
+                        myModal.show();
+                    });
+                });
+
+                const message = "{{{message}}}";
+                if (message) {
+                    var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
+                    myModal.show();
+                }
+
+
+
+                const form = document.getElementById("AddressForm");
+                form.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    let valid = true;
+
+                    const inputs = form.querySelectorAll("input");
+                    inputs.forEach(input => {
+                        input.classList.remove("is-invalid");
+                        const errorDiv = document.getElementById(`${input.id}Error`);
+                        errorDiv.textContent = "";
+
+                        if (input.value.trim() === "") {
+                            input.classList.add("is-invalid");
+                            errorDiv.textContent = "This field is required";
+                            valid = false;
+                        }
+
+                        if (input.type === "number") {
+                            const numValue = Number(input.value);
+
+                            if (isNaN(numValue)) {
+                                input.classList.add("is-invalid");
+                                errorDiv.textContent = "Please enter a valid number";
+                                valid = false;
+                            }
+
+                            if (input.id === "pincode" && (numValue < 100000 || numValue > 999999)) {
+                                input.classList.add("is-invalid");
+                                errorDiv.textContent = "Pincode should be 6 digits";
+                                valid = false;
+                            }
+
+                            if (input.id === "phoneNumber" && (numValue < 1000000000 || numValue > 9999999999)) {
+                                input.classList.add("is-invalid");
+                                errorDiv.textContent = "Phone Number should be 10 digits";
+                                valid = false;
+                            }
+                        }
+
+                        if (input.value.includes(" ") || input.value.includes("\t")) {
+                            input.classList.add("is-invalid");
+                            errorDiv.textContent = "No escape characters allowed";
+                            valid = false;
+                        }
+                    });
+
+                    const state = document.getElementById("state");
+                    const stateError = document.getElementById("stateError");
+                    state.classList.remove("is-invalid");
+                    stateError.textContent = "";
+
+                    if (state.value === "") {
+                        state.classList.add("is-invalid");
+                        stateError.textContent = "Please select a state";
+                        valid = false;
+                    }
+
+                    const townCity = document.getElementById("townCity");
+                    const townCityError = document.getElementById("townCityError");
+                    townCity.classList.remove("is-invalid");
+                    townCityError.textContent = "";
+
+                    if (townCity.value === "") {
+                        townCity.classList.add("is-invalid");
+                        townCityError.textContent = "Please select a district";
+                        valid = false;
+                    }
+
+                    if (valid) {
+                        form.submit();
+                    }
+                });
+
+                const toggleButton = document.getElementById('logo-img');
+                const sidebar = document.getElementById('sidebar');
+                toggleButton.addEventListener('click', function () {
+                    sidebar.classList.toggle('minimized');
+                });
+
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.add('minimized');
+                }
+
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.add('minimized');
+                    } else {
+                        sidebar.classList.remove('minimized');
+                    }
+                });
+
+                // document.addEventListener("contextmenu", event => event.preventDefault());
+            });
+
+            document.getElementById('orderForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const discountAmountElement = document.getElementById('discountAmount');
+                const updatedSubtotalElement = document.getElementById('updatedSubtotal');
+                const orderTotalInput = document.getElementById('orderTotal');
+                const placeOrderBtn = document.getElementById('placeOrderBtn');
+
+
+                const cartItems = document.querySelectorAll('.product-item');
+                if (cartItems.length === 0) {
+                    showModal('Your cart is empty. Please add products to proceed.');
+                    placeOrderBtn.disabled = false;
+                    placeOrderBtn.innerHTML = 'Place Order';
+                    return;
+                }
+
+                button = document.getElementsByTagName('button');
+                // Change button content to show loading spinner
+                placeOrderBtn.innerHTML = `
+                    <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                    <span role="status">Loading...</span>
+                `;
+                placeOrderBtn.disabled = true;
+                button.disabled = true;
+                placeOrderBtn.classList.remove('btn-outline-warning');
+                placeOrderBtn.classList.add('btn-dark');
+
+
+
+                const selectedAddress = document.querySelector('input[name="address"]:checked');
+                if (!selectedAddress) {
+                    showModal('Please select a delivery address');
+                    placeOrderBtn.classList.remove('btn-dark');
+                    placeOrderBtn.classList.add('btn-outline-warning');
+                    return;
+                }
+
+                const selectedAddressId = selectedAddress.value;
+                const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+                const orderTotal = parseFloat(orderTotalInput.textContent.match(/\d+(\.\d+)?/)[0]);
+
+                // Get address details from the selected address label
+                const selectedAddressLabel = selectedAddress.nextElementSibling;
+                const shippingAddress = {
+                    address_line_1: selectedAddressLabel.querySelector('#selectedFlatNo')?.textContent.trim(),
+                    address_line_2: selectedAddressLabel.querySelector('#selectedArea')?.textContent.trim(),
+                    admin_area_2: selectedAddressLabel.querySelector('#selectedTownCity')?.textContent.trim(),
+                    admin_area_1: selectedAddressLabel.querySelector('#selectedState')?.textContent.trim(),
+                    postal_code: selectedAddressLabel.querySelector('#selectedPincode')?.textContent.trim(),
+                    country_code: "US",
+                    phone: selectedAddressLabel.querySelector('#selectedPhoneNumber')?.textContent.replace('Phone:', '').trim(),
+                    address_id: selectedAddressId // Add the address ID to the shipping address object
+                };
+
+                if (selectedPaymentMethod === 'cod' && parseInt(orderTotal) > 50000) {
+                    showModal('COD cannot be opted for total amount more than 50000 !!!');
+                    placeOrderBtn.innerHTML = 'Place Order';
+                    placeOrderBtn.disabled = false;
+                    placeOrderBtn.classList.remove('btn-light');
+                    placeOrderBtn.classList.add('btn-outline-warning');
+                    return;
+                }
+
+                try {
+                    if (selectedPaymentMethod === 'paypal') {
+                        const response = await fetch('/create-paypal-order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                total: orderTotal,
+                                shippingAddress,
+                                selectedAddressId // Pass the selected address ID
+                            }),
+                        });
+
+                        const data = await response.json();
+                        if (!data.id) throw new Error("Failed to create PayPal order.");
+
+                        const approvalLink = `https://www.sandbox.paypal.com/checkoutnow?token=${data.id}`;
+                        window.location.href = approvalLink;
+                    } else if (selectedPaymentMethod === 'cod') {
+                        return placeOrder(selectedAddressId, selectedPaymentMethod);
+                    }
+                } catch (error) {
+                    console.error("Error Processing order:", error);
+                    message('An error occurred while Processing your order. Please try again.');
+
+                    // Reset button state
+                    placeOrderBtn.innerHTML = 'Place Order';
+                    placeOrderBtn.disabled = false;
+                    placeOrderBtn.classList.remove('btn-light');
+                    placeOrderBtn.classList.add('btn-outline-warning');
+                }
+            });
+
+
+            async function placeOrder(selectedAddressId, selectedPaymentMethod) {
+                const orderTotalInput = document.getElementById('orderTotal');
+                const res = await fetch('/checkout/submitOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        selectedAddressId: selectedAddressId,
+                        paymentMethod: selectedPaymentMethod,
+                        orderTotal: parseFloat(orderTotalInput.textContent.match(/\d+(\.\d+)?/)[0])
+                    })
+                });
+                if (res.ok) {
+                    window.location = '/orderSuccess';
+                } else {
+                    const error = await res.json();
+                    console.error(error, 'error while creating order from cart page');
+                }
+            }
+
+
+            document.getElementById('editState').addEventListener('click', async function () {
+                const state = this.value;
+                const districtDropdown = document.getElementById('editTownCity');
+                districtDropdown.innerHTML = '<option value="">Select State</option>';
+
+                if (state) {
+                    try {
+                        const response = await fetch(`/getDistricts/${state}`);
+                        const districts = await response.json();
+                        districts.forEach(district => {
+                            const option = document.createElement('option');
+                            option.value = district;
+                            option.textContent = district;
+                            districtDropdown.appendChild(option);
+                        });
+                    } catch (error) {
+                        console.error("Error loading districts:", error);
+                    }
+                }
+            });
+
+            document.getElementById('state').addEventListener('click', async function () {
+                const state = this.value;
+                const districtDropdown = document.getElementById('townCity');
+                districtDropdown.innerHTML = '<option value="">Select district</option>';
+
+                if (state) {
+                    try {
+                        const response = await fetch(`/getDistricts/${state}`);
+                        const districts = await response.json();
+                        districts.forEach(district => {
+                            const option = document.createElement('option');
+                            option.value = district;
+                            option.textContent = district;
+                            districtDropdown.appendChild(option);
+                        });
+                    } catch (error) {
+                        console.error("Error loading districts:", error);
+                    }
+                }
+            });
+
+            function validateNonEmpty(input) {
+                return input.value.trim() !== "";
+            }
+
+            function validatePincode(input) {
+                const pincodePattern = /^[0-9]{6}$/;
+                return pincodePattern.test(input.value.trim());
+            }
+
+            function validatePhoneNumber(input) {
+                const phonePattern = /^[0-9]{10}$/;
+                return phonePattern.test(input.value.trim());
+            }
+
+            function showError(input, message) {
+                const errorDiv = document.getElementById(input.id + "Error");
+                errorDiv.innerText = message;
+                errorDiv.style.color = "red";
+                errorDiv.style.fontSize = "small";
+            }
+
+            function clearErrors() {
+                document.querySelectorAll(".invalid-feedback").forEach(errorDiv => {
+                    errorDiv.innerText = "";
+                });
+            }
+
+            function validateState(state) {
+                if (state.value == "") {
+                    document.getElementById('stateError').innerText = "Please select state";
+                } else {
+                    document.getElementById('stateError').innerText = "";
+                }
+            }
+
+            function validateTownCity(townCity) {
+                if (townCity.value == "") {
+                    document.getElementById('townCityError').innerText = "Please select district";
+                } else {
+                    document.getElementById('townCityError').innerText = "";
+                }
+            }
+
+
+        </script>
+</body>
+
+</html>

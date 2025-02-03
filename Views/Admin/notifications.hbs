@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Style/admin/notifications.css">
+
+    <title>Request Management</title>
+
+    <link rel="icon" type="image/png" href="/Images/Logo/favicon_without_bg.png">
+</head>
+
+<body>
+
+        <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/admin/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="text" name="message" id="message" value="{{{message}}}" hidden>
+    <!-- Modal HTML -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{{message}}} <!-- Dynamic message passed from res.render -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg bg-body-dark d-flex justify-content-between">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img id="logo-img" src="/Images/Logo/secondary_logo_black_without_bg.webp" alt="CHRONIX Secondary Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <form class="d-flex ms-auto me-5 " role="search">
+                    <input id="searchUser" class="form-control me-2" type="search" placeholder="Search Notification"
+                        aria-label="Search">
+                    <button class="btn btn-outline-dark wishlist" type="submit" hidden><i
+                            class="bi bi-search"></i></button>
+                </form>
+                <a class="navbar_username justify-content-center text-decoration-none text-center me-5 fs-5"
+                        data-bs-toggle="modal"
+                        data-bs-target="#logoutModal" style="cursor: pointer;">{{{admin.username}}}
+                    </a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="main d-flex gap-1">
+        <div id="sidebar" class="sidebar">
+            <ul class="list-unstyled">
+                <li id="dashboard" class="sidebar-item"><a href="/admin/dashboard" class="text-decoration-none"><i
+                            class="bi bi-graph-up-arrow"></i>
+                        <span class="item-text"> Dashboard</span></a></li>
+                <li id="users" class="sidebar-item"><a href="/admin/users" class="text-decoration-none"><i
+                            class="bi bi-people"></i>
+                        <span class="item-text"> Users</span></a></li>
+                <li id="orders" class="sidebar-item"><a href="/admin/orders" class="text-decoration-none"><i
+                            class="bi bi-cart-check"></i>
+                        <span class="item-text"> Orders</span></a></li>
+                <li id="products" class="sidebar-item"><a href="/admin/products" class="text-decoration-none"><i
+                            class="bi bi-watch"></i>
+                        <span class="item-text"> Products</span></a></li>
+                <li id="categories" class="sidebar-item"><a href="/admin/categories" class="text-decoration-none"><i
+                            class="bi bi-inboxes"></i>
+                        <span class="item-text"> Categories</span></a></li>
+                <li id="offers" class="sidebar-item"><a href="/admin/offers" class="text-decoration-none"><i
+                            class="bi bi-tags"></i>
+                        <span class="item-text"> Offers</span></a></li>
+                 
+                <li id="coupons" class="sidebar-item"><a href="/admin/coupons" class="text-decoration-none"><i
+                            class="bi bi-ticket-perforated"></i>
+                        <span class="item-text"> Coupons</span></a></li>
+                <li id="logout" class="sidebar-item">
+                    <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="item-text ms-2">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="container-fluid">
+
+                <!-- Users Table -->
+                <div class="content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Return Requests</h3>
+                        </div>
+                        <div class="card-body scrollable">
+                            {{#if notifications.length}}
+                            {{#each notifications}}
+                            <div class="notification-item d-flex justify-content-between">
+                                <div id="notification-content">
+                                    {{#if isReadMessage}}
+                                    <i class="bi bi-envelope-open-fill text-info ms-2"
+                                        id="notification-icon-{{_id}}"></i>
+                                    {{else}}
+                                    <i class="bi bi-envelope-fill text-danger ms-2" id="notification-icon-{{_id}}"></i>
+                                    {{/if}}
+
+                                    <span>Request from <span
+                                            class="text-secondary fw-bold">{{user_id.username}}</span></span><br>
+                                    {{#each order_id.items}}
+                                    <span>{{incrementedIndex @index}}. Product: <span
+                                            class="text-bg-warning">{{product_id.product_name}}</span></span><br>
+                                    {{/each}}
+                                    <span>Reason: <span class="text-bg-info">{{returnReason}}</span></span><br>
+                                    <span>Phone Number: {{order_id.shipping_address.phoneNumber}}</span><br>
+                                    <span>Shipped Address: {{order_id.shipping_address.flatNo}},
+                                        {{order_id.shipping_address.area}}, {{order_id.shipping_address.townCity}},
+                                        {{order_id.shipping_address.state}} -
+                                        {{order_id.shipping_address.pincode}}</span><br>
+                                    <small>{{moment createdAt "DD/MM/YYYY hh:mm A"}}</small>
+                                </div>
+                                <div class="d-flex flex-column gap-2 col-3 mt-4 me-5" id="notification-actions-{{_id}}">
+                                    <input type="text" name="" id="" value="{{order_id.delivery_status}}" hidden>
+                                    {{#if isReadMessage}}
+                                    {{#if (eq order_id.delivery_status "Returned")}}
+                                    <button class="btn btn-ouline-info" disabled>Accepted</button>
+                                    {{else if (eq order_id.delivery_status "Non-Returnable")}}
+                                    <button class="btn btn-ouline-info" disabled>Rejected</button>
+                                    {{else}}
+                                    <button class="btn btn-ouline-info" disabled></button>
+                                    {{/if}}
+                                    {{else}}
+                                    <input type="text" name="" id="" value="{{_id}}" hidden>
+                                    <button class="btn btn-outline-success reply_actions" id="acceptBtn-{{_id}}"
+                                        onclick="showAcceptModal('{{_id}}')" type="button"><i
+                                            class="bi bi-check-circle-fill"></i> Accept</button>
+                                    <button class="btn btn-outline-danger reply_actions" id="rejectBtn-{{_id}}"
+                                        onclick="showRejectModal('{{_id}}')" type="button"><i
+                                            class="bi bi-x-circle-fill"></i> Reject</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            {{/each}}
+                            {{else}}
+                            <p class="text-center">No notifications found</p>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Accept  Modal -->
+    <div class="modal fade" id="acceptConfirmationModal" tabindex="-1" aria-labelledby="acceptModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="acceptModalLabel">Return Accept Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to accept this return request?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger" id="acceptBtn">Yes, Accept it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Reject Modal -->
+    <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" aria-labelledby="rejectModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectModalLabel">Return Reject Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to reject this return request?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger" id="rejectBtn">Yes, Reject it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        function showModal(message) {
+            console.log('showModalilekk message varunnunde: ' + message);
+            const messageInput = document.getElementById('message');
+            const modalBody = document.querySelector('#messageModal .modal-body');
+
+            // Set the message value and modal body content
+            messageInput.value = message;
+            modalBody.textContent = message;
+
+            console.log('modalBody.textContent: ' + modalBody.textContent);
+            console.log('messageInput.value: ' + messageInput.value);
+
+
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('messageModal'));
+            modal.show();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const message = "{{{message}}}"; // Get message from server
+            if (message) {
+                var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
+                myModal.show();
+            }
+        });
+
+        let acceptReturnRequestId = null;
+
+        function showAcceptModal(orderId) {
+            acceptReturnRequestId = orderId;
+            const acceptModal = new bootstrap.Modal(document.getElementById('acceptConfirmationModal'));
+            acceptModal.show();
+        }
+
+        document.getElementById('acceptBtn').addEventListener('click', function () {
+            const acceptModal = new bootstrap.Modal(document.getElementById('acceptConfirmationModal'));
+            acceptModal.hide();
+            if (acceptReturnRequestId) {
+                acceptReturnRequest(acceptReturnRequestId);
+                window.location.reload();
+            }
+        });
+
+
+        function acceptReturnRequest(requestId) {
+            console.log(requestId, 'is the request Id of the acceptReturnRequest function');
+            fetch(`/admin/all-return-requests/accept/${requestId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showModal('Return request accepted successfully.');
+                    } else {
+                        showModal('Error: Unable to accept return request.');
+                    }
+                })
+                .catch(error => {
+                    console.log('Error in accept return request:', error);
+                });
+        }
+
+
+        let rejectReturnRequestId = null;
+        function showRejectModal(orderId) {
+            rejectReturnRequestId = orderId;
+            const rejectModal = new bootstrap.Modal(document.getElementById('rejectConfirmationModal'));
+            rejectModal.show();
+        }
+
+
+        document.getElementById('rejectBtn').addEventListener('click', function () {
+            const rejectModal = new bootstrap.Modal(document.getElementById('rejectConfirmationModal'));
+            rejectModal.hide();
+            if (rejectReturnRequestId) {
+                rejectReturnRequest(rejectReturnRequestId);
+                window.location.reload();
+            }
+        });
+
+        function rejectReturnRequest(requestId) {
+            console.log(requestId, 'is the request Id of the rejectReturnRequest function');
+            fetch(`/admin/all-return-requests/reject/${requestId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showModal('Return request rejected successfully.');
+                    } else {
+                        showModal('Error: Unable to reject return request.');
+                    }
+                })
+                .catch(error => {
+                    console.log('Error in reject return request:', error);
+                });
+        }
+
+
+
+
+
+
+        // Search functionality
+        document.getElementById('searchUser').addEventListener('keyup', function () {
+            const searchText = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#notification-content');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchText) ? '' : 'none';
+            });
+        });
+
+
+        const toggleButton = document.getElementById('logo-img');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleButton.addEventListener('click', function () {
+            sidebar.classList.toggle('minimized');
+        });
+
+        // Minimize sidebar by default for small screens on page load
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('minimized');
+        }
+
+        // Adjust when window is resized (optional, but good for UX)
+        window.addEventListener('resize', function () {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('minimized');
+            } else {
+                sidebar.classList.remove('minimized');
+            }
+        });
+
+        const togglePassword = document.querySelectorAll('.toggle-password');
+        togglePassword.forEach(el => {
+            el.addEventListener('click', function () {
+                const input = this.parentElement.querySelector('input');
+                if (input.type == 'password') {
+                    input.type = 'text';
+                    this.classList.remove('bi-eye-slash');
+                    this.classList.add('bi-eye');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('bi-eye');
+                    this.classList.add('bi-eye-slash');
+                }
+            });
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>

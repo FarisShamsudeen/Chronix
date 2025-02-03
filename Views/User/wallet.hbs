@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Style/user/wallet.css">
+
+    <title>Wallet</title>
+    <link rel="icon" type="image/png" href="/Images/Logo/favicon_without_bg.png">
+</head>
+
+<body>
+
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="text" name="message" id="message" value="{{{message}}}" hidden>
+    <!-- Modal HTML -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{{message}}} <!-- Dynamic message passed from res.render -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg bg-body-dark d-flex justify-content-between">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" href="#">
+                <img id="logo-img" src="/Images/Logo/secondary_logo_without_bg.webp" alt="CHRONIX Secondary Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  justify-content-end " id="navbarScroll">
+                {{#if user.username}}
+                <p class="d-flex justify-content-end navbar_username mt-3 me-5"><a href="/profile"
+                        class="text-decoration-none text-center">{{{user.username}}}</a></p>
+                {{else}}
+                <p class="d-flex navbar_username mt-3 me-5"><a href="/login"
+                        class="text-decoration-none text-center"><i class="bi bi-box-arrow-right"></i> LOG IN</a>
+                </p>
+                {{/if}}
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="d-flex">
+        <div id="sidebar" class="sidebar me-3">
+            <ul class="list-unstyled">
+                <li id="home" class="sidebar-item"><a href="/"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-house-door"></i><span
+                            class="item-text ms-2"> Home</span></a></li>
+                <li id="explore" class="sidebar-item"><a href="/explore"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-compass"></i><span
+                            class="item-text ms-2"> Explore</span></a></li>
+                <li id="wishlist" class="sidebar-item"><a href="/wishlist"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-heart"></i><span
+                            class="item-text ms-2"> Wishlist</span></a></li>
+                <li id="cart" class="sidebar-item"><a href="/cart"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-cart2"></i><span
+                            class="item-text ms-2"> Cart</span></a></li>
+                <li id="profile" class="sidebar-item"><a href="/profile"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-person"></i><span
+                            class="item-text ms-2"> Profile</span></a></li>
+                <li id="orders" class="sidebar-item"><a href="/orders"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-clock-history"></i><span
+                            class="item-text ms-2"> Orders</span></a></li>
+                 
+                <li id="wallet" class="sidebar-item"><a href="/wallet"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-wallet"></i><span
+                            class="item-text ms-2"> Wallet</span></a></li>
+                <li id="logout" class="sidebar-item">
+                    <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="item-text ms-2">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="container-fluid d-flex flex-column gap-4">
+            <!-- Wallet Balance Section -->
+            <div class="col-12">
+                <div class="card text-light">
+                    <div class="card-header text-info">
+                        <h5>Wallet Balance</h5>
+                    </div>
+                    <div class="card-body text-center d-flex flex-row justify-content-evenly align-items-center">
+                        <div class="d-flex flex-column align-items-center">
+                            <h2 class="display-4 text-warning fw-bold">₹ <span
+                                    id="wallet-balance">{{#if wallet.totalAmount}}{{wallet.totalAmount}}{{else}}0{{/if}}</span></h2>
+                            <p>Your current wallet balance</p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction History Section -->
+            <div class="col-12">
+                <div class="card text-light">
+
+                    <div class="card-header text-info">
+                        <h5>Transaction History</h5>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="scrollable_transactions">
+                            <ul id="transaction-history" class="list-group">
+                                {{#if wallet.transactions.length}}
+                                    {{#each wallet.transactions}}
+                                    <li class="list-group-item d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <input type="hidden" name="{{_id.description}}" value="{{description}}" id="">
+                                            <span>{{#if description}} - {{description}}{{/if}}</span>
+                                            <span class="text-info fs-7">{{formatDateTime date}}</span>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-end">
+                                            <span class="fw-bold {{#if (eq type "credit")}}text-warning">+{{else}}">{{/if}}
+                                                ₹{{amount}}</span>
+                                            <span class="fs-7 {{#if (eq type "credit")}}text-warning">Credited{{else}}">Debited{{/if}}
+                                            </span>
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                {{else}}
+                                    <li class="list-group-item text-center text-info fw-bold fs-2">No transactions found</li>
+                                {{/if}}
+                            </ul>
+
+                            <nav aria-label="Page navigation example" class="mt-4 justify-content-center">
+                                <div class="paginations justify-content-center">
+                                    {{#if (gt currentPage 1)}}
+                                    <div class="page-items">
+                                        <a class="page-arrows" href="?page={{subtract currentPage 1}}">
+                                            <span><i class="bi bi-arrow-left-short"></i></span>
+                                        </a>
+                                    </div>
+                                    {{/if}}
+
+                                    {{#each (range 1 totalPages)}}
+                                    <div class="page-items {{#if (eq this ../currentPage)}}active{{/if}}">
+                                        <a class="page-link" href="?page={{this}}">{{this}}</a>
+                                    </div>
+                                    {{/each}}
+
+                                    {{#if (lt currentPage totalPages)}}
+                                    <div class="page-items">
+                                        <a class="page-arrows" href="?page={{add currentPage 1}}">
+                                            <span><i class="bi bi-arrow-right-short"></i></span>
+                                        </a>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </nav>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+
+        <script>
+
+            // Update wallet balance dynamically
+            document.getElementById('addFundsForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const amount = document.getElementById('amount').value;
+                const paymentMethod = document.getElementById('payment-method').value;
+
+                // Add logic to process the payment and update the wallet balance
+                const walletBalanceElement = document.getElementById('wallet-balance');
+                walletBalanceElement.textContent = parseFloat(walletBalanceElement.textContent) + parseFloat(amount);
+
+                // Add the transaction to the history
+                const transactionHistory = document.getElementById('transaction-history');
+                const newTransaction = document.createElement('li');
+                newTransaction.classList.add('list-group-item');
+                newTransaction.innerHTML = `Added ₹${amount} using ${paymentMethod} on ${new Date().toLocaleDateString()}`;
+                transactionHistory.prepend(newTransaction);  // Add new transaction to the top
+
+                // Close the modal after adding funds
+                var myModal = new bootstrap.Modal(document.getElementById('addFundsModal'));
+                myModal.hide();
+
+                // Clear the form
+                document.getElementById('addFundsForm').reset();
+            });
+
+            document.getElementById('withdrawFundsForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const withdrawAmount = document.getElementById('withdrawAmount').value;
+                const withdrawMethod = document.getElementById('withdrawMethod').value;
+
+                // Add logic to process the withdrawal and update the wallet balance
+                const walletBalanceElement = document.getElementById('wallet-balance');
+                const newBalance = parseFloat(walletBalanceElement.textContent) - parseFloat(withdrawAmount);
+
+                if (newBalance >= 0) {
+                    walletBalanceElement.textContent = newBalance;
+
+                    // Add the transaction to the history
+                    const transactionHistory = document.getElementById('transaction-history');
+                    const newTransaction = document.createElement('li');
+                    newTransaction.classList.add('list-group-item');
+                    newTransaction.innerHTML = `Withdrew ₹${withdrawAmount} via ${withdrawMethod} on ${new Date().toLocaleDateString()}`;
+                    transactionHistory.prepend(newTransaction);
+                } else {
+                    alert('Insufficient balance!');
+                }
+
+                // Clear the form
+                document.getElementById('withdrawFundsForm').reset();
+            });
+
+
+            const toggleButton = document.getElementById('logo-img');
+            const sidebar = document.getElementById('sidebar');
+
+            toggleButton.addEventListener('click', function () {
+                sidebar.classList.toggle('minimized');
+            });
+
+            // Minimize sidebar by default for small screens on page load
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('minimized');
+            }
+
+            // Adjust when window is resized (optional, but good for UX)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.add('minimized');
+                } else {
+                    sidebar.classList.remove('minimized');
+                }
+            });
+
+        </script>
+</body>
+
+</html>

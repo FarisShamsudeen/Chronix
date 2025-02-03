@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Style/user/orders.css">
+
+    <title>Orders</title>
+    <link rel="icon" type="image/png" href="/Images/Logo/favicon_without_bg.png">
+</head>
+
+<body>
+
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="text" name="message" id="message" value="{{{message}}}" hidden>
+    <!-- Modal HTML -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{{message}}} <!-- Dynamic message passed from res.render -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg bg-body-dark d-flex justify-content-between">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img id="logo-img" src="/Images/Logo/secondary_logo_without_bg.webp" alt="CHRONIX Secondary Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  justify-content-end " id="navbarScroll">
+                {{#if user.username}}
+                <p class="d-flex justify-content-end navbar_username mt-3 me-5"><a href="/profile"
+                        class="text-decoration-none text-center">{{{user.username}}}</a></p>
+                {{else}}
+                <p class="d-flex navbar_username mt-3 me-5"><a href="/login"
+                        class="text-decoration-none text-center"><i class="bi bi-box-arrow-right"></i> LOG IN</a>
+                </p>
+                {{/if}}
+            </div>
+        </div>
+    </nav>
+
+    <div class="d-flex">
+
+        <div id="sidebar" class="sidebar me-3">
+            <ul class="list-unstyled">
+                <li id="home" class="sidebar-item"><a href="/"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-house-door"></i><span
+                            class="item-text ms-2"> Home</span></a></li>
+                <li id="explore" class="sidebar-item"><a href="/explore"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-compass"></i><span
+                            class="item-text ms-2"> Explore</span></a></li>
+                <li id="wishlist" class="sidebar-item"><a href="/wishlist"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-heart"></i><span
+                            class="item-text ms-2"> Wishlist</span></a></li>
+                <li id="cart" class="sidebar-item"><a href="/cart"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-cart2"></i><span
+                            class="item-text ms-2"> Cart</span></a></li>
+                <li id="profile" class="sidebar-item"><a href="/profile"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-person"></i><span
+                            class="item-text ms-2"> Profile</span></a></li>
+                <li id="orders" class="sidebar-item"><a href="/orders"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-clock-history"></i><span
+                            class="item-text ms-2"> Orders</span></a></li>
+                 
+                <li id="wallet" class="sidebar-item"><a href="/wallet"
+                        class="d-flex align-items-center text-decoration-none"><i class="bi bi-wallet"></i><span
+                            class="item-text ms-2"> Wallet</span></a></li>
+                <li id="logout" class="sidebar-item">
+                    <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="item-text ms-2">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            {{#if orders}}
+            {{#each orders}}
+            <div class="order-item mb-2">
+                <div class="product-box d-flex flex-column me-3">
+                    {{#each items}}
+                    <div class="product-details d-flex">
+                        <img src="/{{getFirstImage product_id.product_image}}" alt="{{getFirstImage product_id.name}}"
+                            onclick="window.location.href='/product/{{product_id._id}}'"
+                            style="cursor: pointer; width: 50px; height: 50px;">
+                        <div class="row">
+                            <h5 class="text-warning">{{product_id.product_name}}</h5>
+                            <p>Quantity: {{quantity}}</p>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="action-button d-flex gap-3 align-items-center">
+                    <p class="mt-3 me-3 fs-4 fw-bold text-info">No. of Items: {{this.items.length}}</p>
+                    {{#if_eq delivery_status "Delivered"}}
+                    <button id="returnBtn-{{@index}}" class="btn btn-warning"
+                        onclick="showReturnRequestModal('{{_id}}', {{@index}})">
+                        Return Order
+                    </button>
+                    {{else}}
+                    {{#if_eq delivery_status "Cancelled"}}
+                    <button id="cancelBtn-{{@index}}" class="btn btn-danger" disabled>Cancelled</button>
+                    {{else}}
+                    {{#if_eq delivery_status "Return Requested"}}
+                    <button id="cancelBtn-{{@index}}" class="btn btn-danger" disabled>Return Requested</button>
+                    {{else}}
+                    {{#if_eq delivery_status "Returned"}}
+                    <button id="cancelBtn-{{@index}}" class="btn btn-info" disabled>Returned</button>
+                    {{else}}
+                    {{#if_eq delivery_status "Non-Returnable"}}
+                    <button id="cancelBtn-{{@index}}" class="btn btn-secondary" disabled>Non-Returnable</button>
+                    {{else}}
+                    <button id="cancelBtn-{{@index}}" class="btn btn-danger"
+                        onclick="showCancelModal('{{_id}}', {{@index}})">
+                        Cancel Order
+                    </button>
+                    {{/if_eq}}
+                    {{/if_eq}}
+                    {{/if_eq}}
+                    {{/if_eq}}
+                    {{/if_eq}}
+
+
+
+                    <button class="btn btn-info" data-bs-toggle="modal"
+                        data-bs-target="#orderDetailsModal-{{@index}}">View Details</button>
+
+                </div>
+            </div>
+
+            <!-- Return request Modal -->
+            <div class="modal fade" id="returnRequestModal" tabindex="-1" aria-labelledby="returnRequestModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="returnRequestModalLabel">Return Request</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to request a return for this product?</p>
+                            <!-- Display the selected order ID dynamically -->
+                            <h6 id="selectedOrderIdDisplay" style="display: none;"></h6>
+
+                            <!-- Hidden input to pass the order ID -->
+                            <input type="hidden" name="orderId" id="orderIdInput">
+
+                            <form id="returnRequestForm" action="" method="POST">
+                                <div class="mb-3">
+                                    <label for="returnReason" class="form-label">Reason for Return</label>
+                                    <textarea class="form-control" id="returnReason" name="returnReason"
+                                        rows="3"></textarea>
+                                </div>
+                        </div>
+                        <div class="btn-group modal-footer">
+                            <button type="button" class="btn btn-info" data-bs-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-warning" id="confirmReturnBtn">Yes, Request
+                                Return</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal for Order Details -->
+            <div class="modal fade" id="orderDetailsModal-{{@index}}" tabindex="-1"
+                aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex justify-content-between">
+                            <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+
+                            <a href="/orders/invoice/{{this._id}}" class="btn btn-warning">Generate Invoice</a>
+                            
+                        </div>
+                        <div class="modal-body">
+                            <h6 class="text-secondary">Order ID: {{this._id}}</h6>
+                            <h6>Shipping Address:</h6>
+                            <p>{{this.shipping_address.flatNo}}, {{this.shipping_address.area}},
+                                {{this.shipping_address.townCity}}, {{this.shipping_address.state}} -
+                                {{this.shipping_address.pincode}}</p>
+                            <p>Phone: {{this.shipping_address.phoneNumber}}</p>
+
+                            <h6>Order Items:</h6>
+                            {{#each this.items}}
+                            <div class="product-item">
+                                <h6 class="d-flex ms-3 text-warning">{{this.product_id.product_name}}</h6>
+                                <h6 class="d-flex ms-3">Price: ₹ {{this.price}}</h6>
+                                <h6 class="d-flex ms-3">Quantity: {{this.quantity}}</h6>
+                                <hr>
+                            </div>
+                            {{/each}}
+
+                            <h6 class="text-info">Total Amount: ₹ {{totalAmount}}</h6>
+                            <h6>Payment Method:
+                                {{#if (eq payment_method "cod")}}
+                                Cash On Delivery
+                                {{else if (eq payment_method "paypal")}}
+                                PayPal
+                                {{else}}
+                                {{payment_method}}
+                                {{/if}}
+                            </h6>
+                            <h6>Payment Status: {{payment_status}}</h6>
+                            <h6>Delivery Status: {{delivery_status}}</h6>
+                            <h6>Ordered On: {{moment orderedOn "DD/MM/YYYY hh:mm A"}}</h6>
+                            <h6>Coupon Code: {{#if couponCode}}{{couponCode}}{{else}}(No coupon code applied){{/if}}
+                            </h6>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            <nav aria-label="Page navigation example" class="mt-4 justify-content-center">
+                <div class="paginations justify-content-center">
+                    {{#if (gt currentPage 1)}}
+                    <div class="page-items">
+                        <a class="page-arrows" href="?page={{subtract currentPage 1}}">
+                            <span><i class="bi bi-arrow-left-short"></i></span>
+                        </a>
+                    </div>
+                    {{/if}}
+
+                    {{#each (range 1 totalPages)}}
+                    <div class="page-items {{#if (eq this ../currentPage)}}active{{/if}}">
+                        <a class="page-link" href="?page={{this}}">{{this}}</a>
+                    </div>
+                    {{/each}}
+
+                    {{#if (lt currentPage totalPages)}}
+                    <div class="page-items">
+                        <a class="page-arrows" href="?page={{add currentPage 1}}">
+                            <span><i class="bi bi-arrow-right-short"></i></span>
+                        </a>
+                    </div>
+                    {{/if}}
+                </div>
+            </nav>
+            {{else}}
+            <div class=" d-flex align-items-center flex-column">
+                <p class="text-center text-info fw-bold fs-1">You haven't ordered yet.</p>
+                <a href="/explore" class="btn checkout-btn">Explore Products</a>
+            </div>
+            {{/if}}
+
+        </div>
+
+
+        <!-- Confirmation Modal -->
+        <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalLabel">Confirm Cancellation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to cancel this order?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-danger" id="confirmCancelBtn">Yes, Cancel Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const message = "{{{message}}}"; // Get message from server
+            function showMessage(message) {
+                const messageModal = document.getElementById('messageModal');
+                const messageModalBody = messageModal.querySelector('.modal-body');
+                messageModalBody.textContent = message;
+                const myModal = new bootstrap.Modal(messageModal);
+                myModal.show();
+            }
+            if (message) {
+                var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
+                myModal.show();
+            }
+        });
+
+        function showModal(message) {
+            const messageInput = document.getElementById('message');
+            const modalBody = document.querySelector('#messageModal .modal-body');
+
+            // Set the message value and modal body content
+            messageInput.value = message;
+            modalBody.textContent = message;
+
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('messageModal'));
+            modal.show();
+        }
+
+
+        let selectedOrderIdCancellation = null;
+        let selectedOrderIndexCancellation = null;
+
+        function showCancelModal(orderId, index) {
+            selectedOrderIdCancellation = orderId;
+            selectedOrderIndexCancellation = index;
+            const cancelModal = new bootstrap.Modal(document.getElementById('cancelConfirmationModal'));
+            cancelModal.show();
+        }
+
+        document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+            if (selectedOrderIdCancellation) {
+                cancelOrder(selectedOrderIdCancellation, selectedOrderIndexCancellation);
+                // Hide the modal after clicking confirm
+                const cancelModal = bootstrap.Modal.getInstance(document.getElementById('cancelConfirmationModal'));
+                cancelModal.hide();
+                window.location.reload();
+            }
+        });
+
+
+        function cancelOrder(orderId, index) {
+            fetch(`/cancel-order/${orderId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update button to show 'Cancelled' and disable it
+                        const cancelBtn = document.getElementById(`cancelBtn-${index}`);
+                        cancelBtn.disabled = true;
+                        cancelBtn.innerText = 'Cancelled';
+                    } else {
+                        alert('Error: Unable to cancel order.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error in cancel order:', error);
+                });
+        }
+
+
+        let selectedOrderIdReturn = null;
+        let selectedOrderIndexReturn = null;
+
+        function showReturnRequestModal(orderId, index) {
+            selectedOrderIdReturn = orderId;
+            console.log(selectedOrderIdReturn, 'is the selected order id');
+            selectedOrderIndexReturn = index;
+
+            // Update modal elements dynamically
+            document.getElementById('selectedOrderIdDisplay').textContent = selectedOrderIdReturn; // Update display text
+            document.getElementById('returnRequestForm').action = `/return-order-request/${selectedOrderIdReturn}`; // Update form action
+            document.getElementById('orderIdInput').value = selectedOrderIdReturn; // Update hidden input value
+
+            // Show the modal
+            const returnRequestModal = new bootstrap.Modal(document.getElementById('returnRequestModal'));
+            returnRequestModal.show();
+        }
+
+
+
+        const toggleButton = document.getElementById('logo-img');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleButton.addEventListener('click', function () {
+            sidebar.classList.toggle('minimized');
+        });
+
+        // Minimize sidebar by default for small screens on page load
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('minimized');
+        }
+
+        // Adjust when window is resized (optional, but good for UX)
+        window.addEventListener('resize', function () {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('minimized');
+            } else {
+                sidebar.classList.remove('minimized');
+            }
+        });
+
+    </script>
+</body>
+
+</html>
